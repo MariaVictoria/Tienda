@@ -13,7 +13,7 @@ const app = createApp({
   },
   created() {
     this.$http
-      .get('https://MViktoriaU.pythonanywhere.com/api/producto')
+      .get('https://vickygurumis.pythonanywhere.com/api/producto')
       .then(response => {
         this.productos = response.data;
         this.cargando = false;
@@ -27,7 +27,7 @@ const app = createApp({
   methods: {
     eliminar(id) {
       this.$http
-        .delete(`https://MViktoriaU.pythonanywhere.com/api/producto/${id}`)
+        .delete(`https://vickygurumis.pythonanywhere.com/api/producto/${id}`)
         .then(response => {
           this.productos = this.productos.filter(producto => producto.id !== id);
         })

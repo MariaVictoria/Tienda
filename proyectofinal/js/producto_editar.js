@@ -10,7 +10,7 @@ nombre:"",
 imagen:"",
 stock:0,
 precio:0,
-url:'http://promero.pythonanywhere.com/productos/'+id,
+url:'https://vickygurumis.pythonanywhere.com/api/producto/'+id,
 }
 },
 methods: {

@@ -1,8 +1,11 @@
 import mysql.connector
+import pymysql
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
+
+
 
 app = Flask(__name__)
 CORS(app)
@@ -11,7 +14,7 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
 app.config['MYSQL_DATABASE_DB'] = 'tienda_vicky_gurumis'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localhost/tienda_vicky_gurumis'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

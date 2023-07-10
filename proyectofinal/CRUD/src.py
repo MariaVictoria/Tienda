@@ -9,7 +9,7 @@ app=Flask(__name__)  # crear el objeto app de la clase Flask
 CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vickygurumis:IsaCaro2023@vickygurumis.mysql.pythonanywhere-services.com/vickygurumis$default'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
