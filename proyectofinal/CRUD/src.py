@@ -9,7 +9,7 @@ app=Flask(__name__)  # crear el objeto app de la clase Flask
 CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vickygurumis:IsaCaro2023@vickygurumis.mysql.pythonanywhere-services.com/vickygurumis$default'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -315,10 +315,9 @@ def delete_patron(id):
 def create_pedido():
     tipo = request.json["tipo"]
     new_pedido = Pedido(tipo)
+
     db.session.add(new_pedido)
     db.session.commit()
-
-    return pedido_schema.jsonify(new_pedido)
 
 @app.route('/pedido', methods=['GET'])
 def get_pedido():
@@ -354,7 +353,7 @@ def get_factura():
 
 # programa principal *******************************
 if __name__ == '__main__':
-    app.run(debug=True, port=8083)
+    app.run(debug=True, port=5000)
 
 
 @app.route('/')
