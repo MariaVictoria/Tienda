@@ -11,14 +11,14 @@ CORS(app)
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'Delfines/2',
+    'password': '***',
     'database': 'tienda_vicky_gurumis'
 }
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
 app.config['MYSQL_DATABASE_DB'] = 'tienda_vicky_gurumis'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localhost/tienda_vicky_gurumis'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:***@localhost/tienda_vicky_gurumis'
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
