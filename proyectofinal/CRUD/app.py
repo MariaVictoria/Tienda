@@ -24,18 +24,18 @@ class Producto(db.Model):
     def __init__(self, tipo):
         self.tipo = tipo
 
-
 class Amigurumi(db.Model):
     __tablename__ = 'amigurumi'
     idamigurumi = db.Column(db.Integer, primary_key=True)
     idproducto = db.Column(db.Integer, db.ForeignKey('producto.idproducto'))
-    codigo = db.Column(db.varchar(10), nullable=False)
-    nombre = db.Column(db.varchar(200), nullable=False)
-    descripcion = db.Column(db.varchar(500))
-    precio = db.Column(db.double)
-    stock = db.Column(db.varchar(20))
-    imagen = db.Column(db.String(255))
+    codigo = db.Column(db.String(10), nullable=False)
+    nombre = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(500))
+    precio = db.Column(db.Float, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    imagen = db.Column(db.String(200), nullable=True)
 
+    
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
         self.codigo = codigo
@@ -50,12 +50,12 @@ class Patron(db.Model):
     __tablename__ = 'patron'
     idpatron = db.Column(db.Integer, primary_key=True)
     idproducto = db.Column(db.Integer, db.ForeignKey('producto.idproducto'))
-    codigo = db.Column(db.varchar(10), nullable=False)
-    nombre = db.Column(db.varchar(20), nullable=False)
-    descripcion = db.Column(db.varchar(200))
-    precio = db.Column(db.Float)
-    stock = db.Column(db.Integer)
-    imagen = db.Column(db.String(255))
+    codigo = db.Column(db.String(10), nullable=False)
+    nombre = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(500))
+    precio = db.Column(db.Float, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    imagen = db.Column(db.String(200), nullable=True)
 
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
@@ -341,17 +341,6 @@ def get_factura():
     all_facturas = Factura.query.all()
     result = facturas_schema.dump(all_facturas)
     return jsonify(result)
-
-
-@app.route("/producto/<id>", methods=["PUT"])
-def update_producto(id):
-    producto = Producto.query.get(id)
-    if producto:
-        producto.tipo = request.json["tipo"]
-        db.session.commit()
-        return jsonify({"message": "Producto actualizado correctamente"})
-    else:
-        return jsonify({"message": "Producto no encontrado"}), 404
 
 if __name__ == '__main__':
     with app.app_context():

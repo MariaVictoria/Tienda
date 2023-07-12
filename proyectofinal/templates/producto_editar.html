@@ -23,6 +23,8 @@
       />
       <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css" />
       <link rel="stylesheet" href="../../css/main_index.css" />
+      <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css" />
+
       <title>V i c k y G u r u m i S</title>
 </head>
 
@@ -64,6 +66,8 @@
 
     </header>
   <main>
+    <main>
+      
     <div class="container" id="app">
       <form style="background-color: aliceblue;margin:10px auto ; width: 400px; padding: 20px;">
         <h2>Editar Producto </h2>
@@ -84,14 +88,18 @@
           <label for="stock">Stock</label>
           <input type="number" name="stock" id="stock" v-model="stock">
         </div>
+
         <div class="mb-3">
-          <label for="imagen">Imagen</label>
-          <input type="text" name="imagen" id="imagen" v-model="imagen">
-          <img width="100" :src="imagen" alt="">
-        </div>
+          <label for="imagen">Imagen (URL o subir desde tu computadora)</label>
+          <input type="text" name="imagen" id="imagen" v-model="imagenUrl">
+          <input type="file" id="imagenUpload" @change="handleFileUpload">
+          <img width="100" :src="imagenPreview" alt="">
+        </div>   
+        
         <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
       </form>
     </div>
+  
     <footer>
       <p class="parrafo1">Derechos&Reservados 2023</p>
       <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
