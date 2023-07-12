@@ -3,10 +3,19 @@ from flask import Flask ,jsonify ,request
 from flask_cors import CORS       # del modulo flask_cors importar CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
+import mysql.connector
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_cors import CORS
 
 app=Flask(__name__)  # crear el objeto app de la clase Flask
 CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
+app.config['MYSQL_DATABASE_DB'] = 'tienda_vicky_gurumis'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localhost/tienda_vicky_gurumis'
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
@@ -349,11 +358,20 @@ def get_factura():
     return jsonify(result)
 
 #*************#*************#*************#*************#*************
+@app.route("/producto/<id>", methods=["PUT"])
+def update_producto(id):
+    producto = Producto.query.get(id)
+    if producto:
+        producto.tipo = request.json["tipo"]
+        db.session.commit()
+        return jsonify({"message": "Producto actualizado correctamente"})
+    else:
+        return jsonify({"message": "Producto no encontrado"}), 404
 
 
 # programa principal *******************************
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8001)
 
 
 @app.route('/')
