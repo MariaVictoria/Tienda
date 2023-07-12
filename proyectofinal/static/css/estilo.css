@@ -186,7 +186,9 @@ footer {
   background-color: #958febee;
   color: #251001;
 }
+
 /* ================ responsive ==============*/
+
 @media screen and (max-width: 1300px) {
   .contenedor_texto h3 {
     font-size: 3.5rem;

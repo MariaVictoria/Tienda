@@ -7,7 +7,7 @@ const app = Vue.createApp({
       imagenFile: null,
       stock: 0,
       precio: 0,
-      url: 'http://127.0.0.1:8083/api/productos/' + id,
+      url: 'http://127.0.0.1:5004/api/productos/' + id,
       amigurumis: [],
       patrones: [],
       cargando: true,
