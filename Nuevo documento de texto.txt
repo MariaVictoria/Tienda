@@ -1,0 +1,52 @@
+modificar la base. 
+CLiente- pedido
+
+descripcion del pediod. 
+estado del pedido
+precio del pedido
+
+sript>
+    function obtenerProductos() {
+      fetch('../CRUD/app.py/producto')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          console.log(data);
+          // Realiza las acciones necesarias con la respuesta del servidor
+        })
+        .catch(function(error) {
+          console.log('Error:', error);
+        });
+    }
+  </script> si falla que conecte a CRUD/CRUD.py/producto') <div class="container" id="app">
+      <form style="background-color: aliceblue;margin:10px auto ; width: 400px; padding: 20px;">
+       
+        
+        
+        <div class="mb-3">
+          <label for="id">Id</label>
+          <input type="number" name="id" id="id" disabled v-model="id">
+        </div>
+        <div class="mb-3">
+          <label for="nombre">Nombre</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
+     
+        <div class="mb-3">
+          <label for="imagen">Imagen de lo que quieres(URL o subir desde tu computadora)</label>
+          <input type="text" name="imagen" id="imagen" v-model="imagenUrl">
+          <input type="file" id="imagenUpload" @change="handleFileUpload">
+          <img width="100" :src="imagenPreview" alt=""> QUE SOLICITE TODOS LOS DATOS QUE PIDE LA BASE DE DATOS Table: pedido
+Columns:
+idpedido int AI PK 
+idcliente int 
+fecha date 
+idproducto int 
+cantidad_solicitada int 
+precio double 
+fecha_pedido date 
+estado_pedido varchar(20)  grabar tiene que llevar a la base  <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
+      </form>
+la conslta de productos debe traer todo lo cargado en la base de datos
+27.0.0.1:5500/productos.html Cannot GET /productos.html que significa
