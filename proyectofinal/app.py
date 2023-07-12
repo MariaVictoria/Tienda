@@ -188,6 +188,10 @@ def create_producto():
     return producto_schema.jsonify(new_producto)
 
 
+@app.route('/productos')
+def mostrar_productos():
+    productos = Producto.query.all()  # Reemplaza esto con tu propia función para obtener los productos desde la base de datos
+    return render_template('productos.html', productos=productos)
 
 @app.route('/producto', methods=['GET'])
 def get_productos():

@@ -1,12 +1,19 @@
+
 import mysql.connector
-from flask import Flask, jsonify, request
+
+from flask import Flask, jsonify, request,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': 'Delfines/2',
+    'database': 'tienda_vicky_gurumis'
+}
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
@@ -189,6 +196,7 @@ def get_producto():
     all_productos = Producto.query.all()
     result = productos_schema.dump(all_productos)
     return jsonify(result)
+
 
 @app.route("/producto/<id>", methods=["PUT"])
 def update_producto(id):

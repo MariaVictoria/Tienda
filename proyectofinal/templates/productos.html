@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Kanit:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css">
     <link rel="stylesheet" href="../../css/main_index.css">
-    <title>V i c k y G u r u m i S</title>
+    <title>V i c k y G u r u m i S - Productos</title>
 </head>
 
 <body>
@@ -45,12 +45,23 @@
                             <ul>
                                 <li><a href="../../patrones_free.html">Free</a></li>
                                 <li><a href="../../patrones_de_pago.html">De_Pago</a></li>
+                                
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li><a href="../../contacto.html">Contacto</a></li>
-                <li><a href="../../carrito.html">Tienda</a></li>
+                
+                        <li><a href="../../contacto.html">Contacto</a></li>
+                        <li><a href="../../carrito.html">Tienda</a></li>
+                
+                <li><a href="#">De Administracion <br></a>
+                    <ul>
+                        <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Consultar Productos</a>
+                        <li><a href="producto_nuevo.html" target="_blank">Ingresar Producto Nuevo</a></li>
+                        <li><a href="producto_update.html" target="_blank">Actualizar Producto</a></li>
+                        <li><a href="IngresarPedido.html" target="_blank">Ingresar Pedido</a></li>
+
+                    </ul>
             </ul>
         </nav>
 
@@ -60,7 +71,7 @@
         <div id="app" class="container">
             <br>
 
-            <h1> Aquí podrás visualizar nuestros productos Productos "Vicky GurumiS"  </h1>
+            <h1> Aquí podrás visualizar nuestros productos "Vicky GurumiS"  </h1>
             <br>
             <a class="btn btn-Nuevo" href="producto_nuevo.html" target="_blank">Nuevo</a>
 
@@ -94,6 +105,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for producto in productos %}
+                                    <tr>
                                     <tr v-for="producto in productos" :key="producto.id">
                                         <td>{{ producto.nombre }}</td>
                                         <td>{{ producto.precio }}</td>
@@ -106,8 +119,9 @@
                                                 :href="'producto_update.html?id=' + producto.id" target="_blank">Editar</a>
                                             <button type="button" class="btn btn-eliminar"
                                                 @click="eliminar(producto.id)">Eliminar</button>
-                                        </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
