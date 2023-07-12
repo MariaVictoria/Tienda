@@ -1,23 +1,10 @@
-from flask import Flask ,jsonify ,request
-# del modulo flask importar la clase Flask y los métodos jsonify,request
-from flask_cors import CORS       # del modulo flask_cors importar CORS
+from flask import Flask, jsonify, request,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-import mysql.connector
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from flask_cors import CORS
-from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS 
 
-app=Flask(__name__)  # crear el objeto app de la clase Flask
-CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
-app.config['MYSQL_DATABASE_DB'] = 'tienda_vicky_gurumis'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localhost/tienda_vicky_gurumis'
-
+app = Flask(__name__)
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,14 +12,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-
 class Producto(db.Model):
     __tablename__ = 'producto'
     idproducto = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.String(20))
-
+    amigurumis = db.relationship('Amigurumi', backref='producto', lazy=True)
+    patrones = db.relationship('Patron', backref='producto', lazy=True)
+    
     def __init__(self, tipo):
         self.tipo = tipo
+        
+        
+class ProductoSchema(ma.Schema):
+    class Meta:
+        model = Producto
+        fields = ('idproducto', 'tipo')
+
+producto_schema = ProductoSchema()
+productos_schema = ProductoSchema(many=True)
 
 
 class Amigurumi(db.Model):
@@ -134,11 +131,6 @@ with app.app_context():
     db.create_all()
 
 
-class ProductoSchema(ma.Schema):
-    class Meta:
-        model = Producto
-        fields = ('idproducto','tipo' )
-
 class AmigurumiSchema(ma.Schema):
     class Meta:
         model = Amigurumi
@@ -168,14 +160,12 @@ class FacturaSchema(ma.Schema):
         fields = ('idfactura', 'idcliente', 'fecha_emision')
 
 
-producto_schema = ProductoSchema()
 amigurumi_schema = AmigurumiSchema()
 patron_schema = PatronSchema()
 pedido_schema = PedidoSchema()
 cliente_schema = ClienteSchema()
 factura_schema = FacturaSchema()
 
-productos_schema = ProductoSchema(many=True)
 amigurumis_schema = AmigurumiSchema(many=True)
 patrones_schema = PatronSchema(many=True)
 pedidos_schema = PedidoSchema(many=True)
@@ -186,7 +176,7 @@ facturas_schema = FacturaSchema(many=True)
 
 #**************productos*********************
 
-@app.route("/producto", methods=["POST"])
+app.route("/api/productos", methods=["POST"])
 def create_producto():
     tipo = request.json["tipo"]
 
@@ -198,26 +188,29 @@ def create_producto():
     return producto_schema.jsonify(new_producto)
 
 
+
 @app.route('/producto', methods=['GET'])
 def get_productos():
     productos = Producto.query.all()
     productos_data = []
-    
+
     for producto in productos:
+        producto_data = producto_schema.dump(producto)
+
         if producto.tipo == 'amigurumi':
             amigurumis = Amigurumi.query.filter_by(idproducto=producto.idproducto).all()
-            for amigurumi in amigurumis:
-                amigurumi_data = amigurumi_schema.dump(amigurumi)
-                productos_data.append(amigurumi_data)
+            amigurumis_data = amigurumis_schema.dump(amigurumis)
+            producto_data['amigurumis'] = amigurumis_data
         elif producto.tipo == 'patrón':
             patrones = Patron.query.filter_by(idproducto=producto.idproducto).all()
-            for patron in patrones:
-                patron_data = patron_schema.dump(patron)
-                productos_data.append(patron_data)
-    
+            patrones_data = patrones_schema.dump(patrones)
+            producto_data['patrones'] = patrones_data
+
+        productos_data.append(producto_data)
+
     return jsonify(productos_data)
 
-@app.route("/producto/<id>", methods=["PUT"])
+@app.route("/api/productos/<int:id>", methods=["PUT"])
 def update_producto(id):
     producto = Producto.query.get(id)
     if producto:
@@ -228,7 +221,7 @@ def update_producto(id):
         return jsonify({"message": "Producto no encontrado"}), 404
 
 
-@app.route("/producto/<id>", methods=["DELETE"])
+@app.route("/api/productos/<int:id>", methods=["DELETE"])
 def delete_producto(id):
     producto = Producto.query.get(id)
 
@@ -238,6 +231,7 @@ def delete_producto(id):
         return jsonify({"message": "Producto eliminado correctamente"})
     else:
         return jsonify({"message": "Producto no encontrado"}), 404
+
 
 
 #**************Amigurumis********************
@@ -342,6 +336,8 @@ def create_pedido():
     db.session.add(new_pedido)
     db.session.commit()
 
+    return jsonify({"message": "Pedido creado correctamente"})
+ 
 @app.route('/pedido', methods=['GET'])
 def get_pedido():
     all_pedidos = Pedido.query.all()
@@ -385,7 +381,7 @@ def update_producto(id):
 
 # programa principal *******************************
 if __name__ == '__main__':
-    app.run(debug=True, port=8001)
+    app.run(debug=True, port=8083)
 
 
 @app.route('/')

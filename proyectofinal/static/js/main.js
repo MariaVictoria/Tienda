@@ -1,58 +1,79 @@
 // Variables y manipulación del DOM:
 const shopContent = document.getElementById("shopContent");
-const verCarrito = document.getElementById("verCarrito");
-const modalContainer = document.getElementById("modal-container");
+const url = 'http://MViktoriaU.mysql.pythonanywhere-services.com/api/productos'; 
 
-let carrito = [];
+// Función para agregar un nuevo producto a la base de datos
+function agregarProducto() {
+  const nombre = "Nuevo producto"; // Reemplaza con el nombre del nuevo producto
+  const precio = 100; // Reemplaza con el precio del nuevo producto
+  const stock = 10; // Reemplaza con el stock del nuevo producto
+  const imagen = "ruta/imagen.jpg"; // Reemplaza con la ruta de la imagen del nuevo producto
 
-productos.forEach((product) => {
-    let content = document.createElement("div");
-    content.className = "card";
-    content.innerHTML = `
-        <img src="${product.img}">
-        <h3>${product.nombre}</h3>
-        <p class="price">$ ${product.precio}</p>
-    `;
-    shopContent.append(content);
+  const nuevoProducto = {
+    nombre: nombre,
+    precio: precio,
+    stock: stock,
+    imagen: imagen
+  };
 
-    let comprar = document.createElement("button")
-    comprar.innerText = "AGREGAR";
-    comprar.className = "comprar";
-    content.append(comprar);
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(nuevoProducto)
+  };
 
-    comprar.addEventListener("click", () => {
-        carrito.push({
-            id: product.id,
-            nombre: product.nombre,
-            img: product.img,
-            precio: product.precio,
-        });
+  // Realiza la solicitud HTTP POST al servidor para agregar el nuevo producto
+  fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // Aquí puedes manejar la respuesta del servidor
+      // Actualiza la lista de productos en la página
+      obtenerProductos();
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
-});
+}
 
-//instancia de la aplicación Vue
-const app = Vue.createApp({
-    data() {
-      return {
-        productos: [], // Array vacío para almacenar los productos cargados
-        cargando: true, // Variable para controlar el estado de carga
-        error: false, // Variable para controlar si ocurre un error en la carga
-      };
-    },
-    mounted() {
-      // Realiza la solicitud para obtener los productos desde la API Flask
-      fetch('https://MViktoriaU.mysql.pythonanywhere-services.com/api/productos')
-        .then(response => response.json())
-        .then(data => {
-          this.productos = data; // Asigna los productos a la propiedad "productos" de la aplicación
-          this.cargando = false; // Cambia el estado de carga a "false"
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          this.cargando = false; // Cambia el estado de carga a "false" en caso de error
-          this.error = true; // Activa la variable de error
-        });
-    },
+// Función para obtener la lista de productos desde el servidor
+function obtenerProductos() {
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Actualiza la lista de productos en la página
+      // Puedes usar los datos obtenidos para mostrarlos en la página
+      // o realizar otras operaciones necesarias
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+// Maneja el evento de clic en el botón "AGREGAR"
+function handleClickAgregar() {
+  agregarProducto();
+}
+
+// Agrega el evento de clic al botón "AGREGAR"
+document.getElementById("agregarButton").addEventListener("click", handleClickAgregar);
+
+// Obtén la lista de productos al cargar la página
+obtenerProductos();
+axios.get('/producto')
+  .then(response => {
+    // Aquí obtienes los productos desde la respuesta de la API
+    const productos = response.data;
+
+    // Aquí puedes iterar sobre los productos y mostrarlos en tu HTML
+    productos.forEach(producto => {
+      // Agrega el código necesario para mostrar cada producto en tu HTML
+      // Puedes utilizar elementos HTML como <div>, <ul>, <li>, <table>, etc.
+    });
+  })
+  .catch(error => {
+    // Manejo de errores en caso de que la solicitud falle
+    console.error(error);
   });
-  
-  app.mount('#app');

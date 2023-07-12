@@ -1,44 +1,79 @@
-const productos = [
-    { 
-        id: 1, 
-        nombre: "Ciguena", 
-        precio: 5000, 
-        img: "./img/carrito/ciguena.png" 
-    },
-    {
-        id: 2,
-        nombre: "Muneca Dulce",
-        precio: 15000,
-        img: "./img/carrito/munecadulce.png"
-    },
-    {
-        id: 3,
-        nombre: "Combo Dino + Libro",
-        precio: 9000,
-        img: "./img/carrito/combodino.png"
-    },
-    {
-        id: 4,
-        nombre: "Camaleon",
-        precio: 5500,
-        img: "./img/carrito/camaleon.png"
-    },
-    {
-        id: 5,
-        nombre: "Combo Triceratops + Libro Didactico",
-        precio: 9000,
-        img: "./img/carrito/combotriceratop.png"
-    },
-    {
-        id: 6,
-        nombre: "Combo Jirafa + Libro didactico",
-        precio: 10000,
-        img: "./img/carrito/combojirafa.png"
-    },
-    {
-        id: 7,
-        nombre: "Fridita",
-        precio: 5000,
-        img: "./img/carrito/fridita.png"
+Vue.createApp({
+  data() {
+    return {
+      error: false,
+      loading: true,
+      amigurumis: [], // Variable para almacenar los amigurumis
+      patrones: [], // Variable para almacenar los patrones
+      productos: [] // Variable para almacenar los productos generales
+    };
+  },
+  mounted() {
+    // Ejemplo de solicitud para obtener los amigurumis
+    axios.get('/api/amigurumis')
+      .then(response => {
+        this.amigurumis = response.data;
+      })
+      .catch(error => {
+        this.error = true;
+        console.error(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+
+    // Ejemplo de solicitud para obtener los patrones
+    axios.get('/api/patrones')
+      .then(response => {
+        this.patrones = response.data;
+      })
+      .catch(error => {
+        this.error = true;
+        console.error(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+
+    // Ejemplo de solicitud para obtener los productos generales
+    axios.get('/api/productos')
+      .then(response => {
+        this.productos = response.data;
+      })
+      .catch(error => {
+        this.error = true;
+        console.error(error);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  },
+  methods: {
+    eliminar(id) {
+      // Aquí implementarías la lógica para eliminar un producto según su ID
     }
-];
+  }
+}).mount('#app');
+Vue.createApp({
+  data() {
+      return {
+          amigurumis: [],
+          patrones: [],
+          loading: true,
+          error: false
+      };
+  },
+  mounted() {
+      axios.get('/producto')
+          .then(response => {
+              this.amigurumis = response.data.amigurumis;
+              this.patrones = response.data.patrones;
+              this.loading = false;
+          })
+          .catch(error => {
+              console.error(error);
+              this.error = true;
+              this.loading = false;
+          });
+  }
+}).mount('#app');

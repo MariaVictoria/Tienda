@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -8,27 +8,21 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-        <link
-        rel="shortcut icon"
-        href="favicom/VickyGurumiS.ico"
-        type="image/x-icon"
-      />
-      <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Kanit:ital,wght@0,400;0,500;1,400&display=swap"
-        rel="stylesheet"
-      />
-      <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css" />
-      <link rel="stylesheet" href="../../css/main_index.css" />
-      <title>V i c k y G u r u m i S</title>
+    <link rel="shortcut icon" href="favicom/VickyGurumiS.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Kanit:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css">
+    <link rel="stylesheet" href="../../css/main_index.css">
+    <title>V i c k y G u r u m i S</title>
 </head>
 
 <body>
     <header>
-        <img src="../../iconos/Gurumis.png" class="img_logo" alt=" logo" />
+        <img src="../../iconos/Gurumis.png" class="img_logo" alt="logo" />
         <label for="campo_nombre" id="nombreE">Vicky GurumiS</label>
         <input type="checkbox" id="check" />
         <label for="check">
@@ -36,7 +30,7 @@
         </label>
         <nav class="menu">
             <ul>
-                <li><a href="../../index.html" >Inicio</a></li>
+                <li><a href="../../index.html">Inicio</a></li>
                 <li><a href="../../info.html">Acerca de</a></li>
                 <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Productos</a>
                     <ul>
@@ -64,56 +58,104 @@
 
     <main>
         <div id="app" class="container">
-            <h1>Productos</h1>
             <br>
-            <a class="btn btn-primary" href="producto_nuevo.html">Nuevo</a>
+
+            <h1> Aquí podrás visualizar nuestros productos Productos "Vicky GurumiS"  </h1>
+            <br>
+            <a class="btn btn-Nuevo" href="producto_nuevo.html" target="_blank">Nuevo</a>
+
             <br><br>
             <div v-if="error">
-                <p>Lo sentimos , ........</p>
+                <p>Lo sentimos, ha ocurrido un error.</p>
             </div>
             <div v-else>
-                <section v-if="cargando">
+                <div v-if="loading">
                     <div class="spinner-border"></div>
-                    <p>Cargando .....</p>
-                </section>
-                <section v-else>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Stock</th>
-                                    <th scope="col">Imagen</th>
-                                    <th scope="col">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="" v-for="producto in productos">
-                                    <td scope="row">{{producto.id}}</td>
-                                    <td>{{producto.nombre}}</td>
-                                    <td>{{producto.precio}}</td>
-                                    <td>{{producto.stock}}</td>
-                                    <td>
-                                        <img width="60" :src="producto.imagen" :alt="producto.nombre">
-                                    </td>
-                                    <td>
-
-                                        <a class="btn btn-editar"
-                                            :href="'producto_update.html?id=' + producto.id">Editar</a>
-                                        
-
-                                        <button type="button" class="btn btn-eliminar"
-                                            v-on:click="eliminar(producto.id)">Eliminar</button>
-                                    </td>
-                            </tbody>
-                        </table>
+                    <h5><p>Cargando...</p></h5>
+                </div>
+                <div v-else>
+                     <div v-else>
+                        <div class="amigurumis-section">
+                            <h1>Amigurumis</h1>
+                            <div v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
+                              
+                        </div>
                     </div>
-                </section>
+                    <div v-else>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Imagen</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="producto in productos" :key="producto.id">
+                                        <td>{{ producto.nombre }}</td>
+                                        <td>{{ producto.precio }}</td>
+                                        <td>{{ producto.stock }}</td>
+                                        <td>
+                                            <img width="60" :src="producto.imagen" :alt="producto.nombre">
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-editar"
+                                                :href="'producto_update.html?id=' + producto.id" target="_blank">Editar</a>
+                                            <button type="button" class="btn btn-eliminar"
+                                                @click="eliminar(producto.id)">Eliminar</button>
+                                        </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="patrones-section">
+                            <h1>Patrones</h1>
+                            <div v-for="patron in patrones" :key="patron.idpatron">
+                                
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
+            <div v-else>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="producto in productos" :key="producto.id">
+                                <td>{{ producto.nombre }}</td>
+                                <td>{{ producto.precio }}</td>
+                                <td>{{ producto.stock }}</td>
+                                <td>
+                                    <img width="60" :src="producto.imagen" :alt="producto.nombre">
+                                </td>
+                                <td>
+                                    <a class="btn btn-editar"
+                                        :href="'producto_update.html?id=' + producto.id" target="_blank">Editar</a>
+                                    <button type="button" class="btn btn-eliminar"
+                                        @click="eliminar(producto.id)">Eliminar</button>
+                                       </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                               
+                      
         <footer>
             <p class="parrafo1">Derechos&Reservados 2023</p>
             <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
@@ -129,7 +171,7 @@
             crossorigin="anonymous"></script>
         <script src="../js/main.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->
-        
+
 
         <script src="../js/productos.js"></script>
     </main>

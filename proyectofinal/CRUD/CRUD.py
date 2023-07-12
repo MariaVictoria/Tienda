@@ -16,6 +16,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localho
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+#**********************************************************************
+
 class Producto(db.Model):
     __tablename__ = 'producto'
     idproducto = db.Column(db.Integer, primary_key=True)
