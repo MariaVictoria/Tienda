@@ -7,7 +7,7 @@ const app = Vue.createApp({
       imagenFile: null,
       stock: 0,
       precio: 0,
-      url: 'http://127.0.0.1:5004/api/productos/' + id,
+      url: 'http://mviktoriau.pythonanywhere.com/api/productos/0',
       amigurumis: [],
       patrones: [],
       cargando: true,
@@ -16,11 +16,11 @@ const app = Vue.createApp({
   },
   mounted() {
     console.log(location.search); // Lee los argumentos pasados a este formulario
-    var id = location.search.substr(4);
+    const id = location.search.substr(4);
     console.log(id);
-  
+
     // Realiza la solicitud para obtener los detalles del producto desde la API Flask
-    fetch(this.url)
+    fetch(this.url.replace('/0', `/${id}`))
       .then(response => response.json())
       .then(data => {
         this.id = data.id;
@@ -35,7 +35,7 @@ const app = Vue.createApp({
       });
 
     // Realiza la solicitud para obtener los amigurumis desde la API Flask
-    fetch('http://MViktoriaU.mysql.pythonanywhere-services.com/api/amigurumis')
+    fetch('http://mviktoriau.pythonanywhere.com/api/amigurumis')
       .then(response => response.json())
       .then(data => {
         this.amigurumis = data;
@@ -46,7 +46,7 @@ const app = Vue.createApp({
       });
 
     // Realiza la solicitud para obtener los patrones desde la API Flask
-    fetch('http://MViktoriaU.mysql.pythonanywhere-services.com/api/patrones')
+    fetch('http://mviktoriau.pythonanywhere.com/api/patrones')
       .then(response => response.json())
       .then(data => {
         this.patrones = data;
@@ -64,19 +64,19 @@ const app = Vue.createApp({
       this.imagen = URL.createObjectURL(this.imagenFile);
     },
     modificar() {
-      let producto = {
+      const producto = {
         nombre: this.nombre,
         precio: this.precio,
         stock: this.stock,
         imagen: this.imagen,
       };
-      var options = {
+      const options = {
         body: JSON.stringify(producto),
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         redirect: 'follow',
       };
-      fetch(this.url, options)
+      fetch(this.url.replace('/0', `/${this.id}`), options)
         .then(() => {
           alert("Registro modificado");
           window.location.href = "/proyectofinal/templates/productos.html";
