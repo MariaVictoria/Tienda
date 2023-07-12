@@ -22,7 +22,7 @@
         rel="stylesheet"
       />
       <link rel="stylesheet" href="/proyectofinal/static/css/estilo.css">
-      <link rel="stylesheet" href="../../css/main_index.css">
+    <link rel="stylesheet" href="../../css/main_index.css">
 
       <title>V i c k y G u r u m i S - Ingresar Pedido</title>
 </head>
@@ -73,28 +73,30 @@
 </nav>
 
     </header>
-  <main>
-    <main>
-      
-        <div id="app" class="container">
-            <br>
 
-            <h1> Aquí podrás ingresar Pedidos a "Vicky GurumiS"  </h1>
+    <main>
+      <br>
+     <h1> Pedidos a "Vicky GurumiS"  </h1>
             <br>
-    <div class="container" id="app">
-      <form style="background-color: aliceblue;margin:10px auto ; width: 400px; padding: 20px;">
-       
+            <div v-else>
+              <div class="table-responsive">
+                
+                <div class="container" id="app">
+                  <form style="background-color: rgb(143, 197, 245);margin:10px auto ; width: 400px; padding: 20px;">
+                    <h1>Ingresar el Pedido</h1>
         
-        
-        <div class="mb-3">
-          <label for="id">Id</label>
-          <input type="number" name="id" id="id" disabled v-model="id">
-        </div>
-        <div class="mb-3">
-          <label for="nombre">Nombre</label>
+         <div class="mb-3">
+          <label for="nombre"> Fecha</label>
           <input type="text" name="nombre" id="nombre" v-model="nombre">
         </div>
-     
+        <div class="mb-3">
+          <label for="nombre">Datos de cliente</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
+        <div class="mb-3">
+          <label for="nombre">Nombre y descripcion del producto</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
         <div class="mb-3">
           <label for="imagen">Imagen de lo que quieres(URL o subir desde tu computadora)</label>
           <input type="text" name="imagen" id="imagen" v-model="imagenUrl">
@@ -102,6 +104,22 @@
           <img width="100" :src="imagenPreview" alt="">
         </div>   
         
+        <div class="mb-3">
+          <label for="nombre">Cantidad solicitada</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
+        <div class="mb-3">
+          <label for="nombre">Seña</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
+        <div class="mb-3">
+          <label for="nombre">Fecha entrega del pedido</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
+        <div class="mb-3">
+          <label for="nombre">Consultar Estado del pedido</label>
+          <input type="text" name="nombre" id="nombre" v-model="nombre">
+        </div>
         <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
       </form>
     </div>

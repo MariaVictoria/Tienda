@@ -54,16 +54,16 @@
                         <li><a href="../../contacto.html">Contacto</a></li>
                         <li><a href="../../carrito.html">Tienda</a></li>
                 
-                <li><a href="#">De Administracion <br></a>
-                    <ul>
-                        <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Consultar Productos</a>
-                        <li><a href="producto_nuevo.html" target="_blank">Ingresar Producto Nuevo</a></li>
-                        <li><a href="producto_update.html" target="_blank">Actualizar Producto</a></li>
-                        <li><a href="IngresarPedido.html" target="_blank">Ingresar Pedido</a></li>
-
-                    </ul>
-            </ul>
-        </nav>
+                        <li><a href="#">De Administracion <br></a>
+                            <ul>
+                                <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Consultar Productos</a>
+                                <li><a href="producto_nuevo.html" target="_blank">Ingresar Producto Nuevo</a></li>
+                                <li><a href="producto_update.html" target="_blank">Actualizar Producto</a></li>
+                                <li><a href="IngresarPedido.html" target="_blank">Ingresar Pedido</a></li>
+                      
+                            </ul>
+                      </ul>
+                      </nav>
 
     </header>
 
@@ -71,7 +71,7 @@
         <div id="app" class="container">
             <br>
 
-            <h1> Aquí podrás visualizar nuestros productos "Vicky GurumiS"  </h1>
+            <h1> Aquí podrás consultar nuestros productos "Vicky GurumiS"  </h1>
             <br>
             <a class="btn btn-Nuevo" href="producto_nuevo.html" target="_blank">Nuevo</a>
 
@@ -105,7 +105,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for producto in productos %}
+                                  
                                     <tr>
                                     <tr v-for="producto in productos" :key="producto.id">
                                         <td>{{ producto.nombre }}</td>
@@ -121,7 +121,7 @@
                                                 @click="eliminar(producto.id)">Eliminar</button>
                                             </td>
                                         </tr>
-                                        {% endfor %}
+                                       
                                         </tbody>
                                     </table>
                                 </div>
