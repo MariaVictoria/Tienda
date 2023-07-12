@@ -1,29 +1,20 @@
-from flask import Flask ,jsonify ,request
-# del modulo flask importar la clase Flask y los métodos jsonify,request
-from flask_cors import CORS       # del modulo flask_cors importar CORS
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
 import mysql.connector
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 
-app=Flask(__name__)  # crear el objeto app de la clase Flask
-CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
+app = Flask(__name__)
+CORS(app)
+
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Delfines/2'
 app.config['MYSQL_DATABASE_DB'] = 'tienda_vicky_gurumis'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Delfines/2@localhost/tienda_vicky_gurumis'
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-
 
 class Producto(db.Model):
     __tablename__ = 'producto'
@@ -33,18 +24,18 @@ class Producto(db.Model):
     def __init__(self, tipo):
         self.tipo = tipo
 
-
 class Amigurumi(db.Model):
     __tablename__ = 'amigurumi'
     idamigurumi = db.Column(db.Integer, primary_key=True)
     idproducto = db.Column(db.Integer, db.ForeignKey('producto.idproducto'))
     codigo = db.Column(db.String(10), nullable=False)
-    nombre = db.Column(db.String(20), nullable=False)
+    nombre = db.Column(db.String(200), nullable=False)
     descripcion = db.Column(db.String(500))
-    precio = db.Column(db.Float)
-    stock = db.Column(db.String(20))
-    imagen = db.Column(db.String(255))
+    precio = db.Column(db.Float, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    imagen = db.Column(db.String(200), nullable=True)
 
+    
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
         self.codigo = codigo
@@ -60,11 +51,11 @@ class Patron(db.Model):
     idpatron = db.Column(db.Integer, primary_key=True)
     idproducto = db.Column(db.Integer, db.ForeignKey('producto.idproducto'))
     codigo = db.Column(db.String(10), nullable=False)
-    nombre = db.Column(db.String(20), nullable=False)
+    nombre = db.Column(db.String(200), nullable=False)
     descripcion = db.Column(db.String(500))
-    precio = db.Column(db.Float)
-    stock = db.Column(db.Integer)
-    imagen = db.Column(db.String(255))
+    precio = db.Column(db.Float, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    imagen = db.Column(db.String(200), nullable=True)
 
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
@@ -129,14 +120,10 @@ class Factura(db.Model):
         self.fecha_emision = fecha_emision
 
 
-with app.app_context():
-    db.create_all()
-
-
 class ProductoSchema(ma.Schema):
     class Meta:
         model = Producto
-        fields = ('idproducto','tipo' )
+
 
 class AmigurumiSchema(ma.Schema):
     class Meta:
@@ -153,18 +140,16 @@ class PatronSchema(ma.Schema):
 class PedidoSchema(ma.Schema):
     class Meta:
         model = Pedido
-        fields = ('idpedido', 'idcliente', 'fecha', 'idproducto', 'cantidad_solicitada', 'precio', 'fecha_pedido', 'estado_pedido')
 
 
 class ClienteSchema(ma.Schema):
     class Meta:
         model = Cliente
-        fields = ('idcliente', 'nombre', 'apellido', 'edad', 'cel', 'direccion', 'email', 'password')
+
 
 class FacturaSchema(ma.Schema):
     class Meta:
         model = Factura
-        fields = ('idfactura', 'idcliente', 'fecha_emision')
 
 
 producto_schema = ProductoSchema()
@@ -291,11 +276,25 @@ def create_patron():
 
     return patron_schema.jsonify(new_patron)
 
-@app.route('/patron', methods=['GET'])
-def get_patron():
-    all_patrones = Patron.query.all()
-    result = patrones_schema.dump(all_patrones)
-    return jsonify(result)
+@app.route('/producto', methods=['GET'])
+def get_productos():
+    productos = Producto.query.all()
+    productos_data = []
+    
+    for producto in productos:
+        if producto.tipo == 'amigurumi':
+            amigurumis = Amigurumi.query.filter_by(idproducto=producto.idproducto).all()
+            for amigurumi in amigurumis:
+                amigurumi_data = amigurumi_schema.dump(amigurumi)
+                productos_data.append(amigurumi_data)
+        elif producto.tipo == 'patrón':
+            patrones = Patron.query.filter_by(idproducto=producto.idproducto).all()
+            for patron in patrones:
+                patron_data = patron_schema.dump(patron)
+                productos_data.append(patron_data)
+    
+    return jsonify(productos_data)
+
 
 @app.route("/patron/<id>", methods=["PUT"])
 def update_patron(id):
@@ -357,23 +356,8 @@ def get_factura():
     result = facturas_schema.dump(all_facturas)
     return jsonify(result)
 
-#*************#*************#*************#*************#*************
-@app.route("/producto/<id>", methods=["PUT"])
-def update_producto(id):
-    producto = Producto.query.get(id)
-    if producto:
-        producto.tipo = request.json["tipo"]
-        db.session.commit()
-        return jsonify({"message": "Producto actualizado correctamente"})
-    else:
-        return jsonify({"message": "Producto no encontrado"}), 404
-
-
-# programa principal *******************************
 if __name__ == '__main__':
-    app.run(debug=True, port=8001)
+    with app.app_context():
+        db.create_all()
 
-
-@app.route('/')
-def hello_world():
-    return 'Hello YOU !'
+    app.run(debug=True)
