@@ -342,6 +342,17 @@ def get_factura():
     result = facturas_schema.dump(all_facturas)
     return jsonify(result)
 
+
+@app.route("/producto/<id>", methods=["PUT"])
+def update_producto(id):
+    producto = Producto.query.get(id)
+    if producto:
+        producto.tipo = request.json["tipo"]
+        db.session.commit()
+        return jsonify({"message": "Producto actualizado correctamente"})
+    else:
+        return jsonify({"message": "Producto no encontrado"}), 404
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
