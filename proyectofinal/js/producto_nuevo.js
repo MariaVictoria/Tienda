@@ -1,3 +1,7 @@
+var id = location.search.substr(4)
+let valorid=document.getElementById("id")
+valorid.innerHTML=`${id}`;
+const { createApp } = Vue
 const app = Vue.createApp({
   data() {
     return {
@@ -9,7 +13,7 @@ const app = Vue.createApp({
         imagenUrl: '',
         imagenPreview: '',
       },
-      url: 'http://localhost:5500/producto',
+      url: 'hhttp://mviktoriau.pythonanywhere.com/amigurumi',
     };
   },
   methods: {
