@@ -115,7 +115,7 @@
               <label for="consultaEstado">Consultar Estado del pedido</label>
               <input type="text" name="consultaEstado" id="consultaEstado" v-model="consultaEstado">
             </div>
-            <button type="button" class="btn btn-success" @click="grabar">Grabar</button>
+            <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
           </form>
         </div>
 
