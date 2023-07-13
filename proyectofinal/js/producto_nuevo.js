@@ -35,7 +35,7 @@ const app = Vue.createApp({
         .post(this.url, nuevoProducto)
         .then(response => {
           console.log('Nuevo producto registrado:', response.data);
-          // Aquí puedes realizar acciones adicionales después de guardar el producto, como mostrar una notificación de éxito o redirigir a otra página.
+        
         })
         .catch(error => {
           console.error('Error al registrar el producto:', error);
