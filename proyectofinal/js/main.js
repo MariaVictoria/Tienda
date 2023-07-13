@@ -1,6 +1,6 @@
 // Variables y manipulación del DOM:
 const shopContent = document.getElementById("shopContent");
-const url = 'http://MViktoriaU.mysql.pythonanywhere-services.com/producto'; 
+const url = 'http://mviktoriau.pythonanywhere.com/amigurumi'; 
 
 // Función para agregar un nuevo producto a la base de datos
 function agregarProducto() {
