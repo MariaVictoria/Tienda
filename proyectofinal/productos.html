@@ -90,6 +90,7 @@
                         <p>Cargando...</p>
                     </h5>
                 </div>
+            <div v-else>
     
             <div class="amigurumis-section">
                             <h1>Amigurumis</h1>
@@ -119,16 +120,18 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-editar"
-                                                    :href="'producto_update.html?id=' + producto.id"
-                                                    target="_blank">Editar</a>
+                                                    :href="'producto_update.html?id='+ producto.id"
+                                                     >Editar</a>
                                                 <button type="button" class="btn btn-eliminar"
-                                                    @click="eliminar(producto.id)">Eliminar</button>
+                                                    v-on:click="eliminar(producto.id)">Eliminar</button>
                                             </td>
                                         </tr>
 
                                     </tbody>
                                 </table>
                             </div>
+                </div>
+
             </div>
                     
             <div class="patrones-section">
@@ -160,7 +163,7 @@
                                     <a class="btn btn-editar" :href="'producto_update.html?id=' + producto.id"
                                         target="_blank">Editar</a>
                                     <button type="button" class="btn btn-eliminar"
-                                        @click="eliminar(producto.id)">Eliminar</button>
+                                        v-on:click="eliminar(producto.id)">Eliminar</button>
                                 </td>
                             </tr>
                          </tbody>
@@ -187,8 +190,6 @@
             crossorigin="anonymous"></script>
         <script src="../js/main.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->
-
-
         <script src="../js/productos.js"></script>
     </main>
 </body>

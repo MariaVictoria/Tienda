@@ -1,92 +1,75 @@
-const app = Vue.createApp({
-  data() {
-    return {
-      id: 0,
-      nombre: "",
-      imagen: "",
-      imagenFile: null,
-      stock: 0,
-      precio: 0,
-      url: 'http://mviktoriau.pythonanywhere.com/api/productos/0',
-      amigurumis: [],
-      patrones: [],
-      cargando: true,
-      error: false,
-    };
-  },
-  mounted() {
-    console.log(location.search); // Lee los argumentos pasados a este formulario
-    const id = location.search.substr(4);
-    console.log(id);
-
-    // Realiza la solicitud para obtener los detalles del producto desde la API Flask
-    fetch(this.url.replace('/0', `/${id}`))
-      .then(response => response.json())
-      .then(data => {
-        this.id = data.id;
-        this.nombre = data.nombre;
-        this.imagen = data.imagen;
-        this.stock = data.stock;
-        this.precio = data.precio;
-      })
-      .catch(error => {
-        console.error(error);
-        this.error = true;
-      });
-
-    // Realiza la solicitud para obtener los amigurumis desde la API Flask
-    fetch('http://mviktoriau.pythonanywhere.com/api/amigurumis')
-      .then(response => response.json())
-      .then(data => {
-        this.amigurumis = data;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        this.error = true;
-      });
-
-    // Realiza la solicitud para obtener los patrones desde la API Flask
-    fetch('http://mviktoriau.pythonanywhere.com/api/patrones')
-      .then(response => response.json())
-      .then(data => {
-        this.patrones = data;
-        this.cargando = false;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        this.error = true;
-        this.cargando = false;
-      });
-  },
-  methods: {
-    handleFileUpload(event) {
-      this.imagenFile = event.target.files[0];
-      this.imagen = URL.createObjectURL(this.imagenFile);
+console.log(location.search) // lee los argumentos pasados a este formulario
+var id=location.search.substr(4)
+console.log(id)
+const { createApp } = Vue
+createApp({
+    data() {
+        return {
+            id: 0,
+            nombre: "",
+            imagen: "",
+            stock: 0,
+            precio: 0,
+            url: 'http://mviktoriau.pythonanywhere.com/producto' + id,
+        }
     },
-    modificar() {
-      const producto = {
-        nombre: this.nombre,
-        precio: this.precio,
-        stock: this.stock,
-        imagen: this.imagen,
-      };
-      const options = {
-        body: JSON.stringify(producto),
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        redirect: 'follow',
-      };
-      fetch(this.url.replace('/0', `/${this.id}`), options)
-        .then(() => {
-          alert("Registro modificado");
-          window.location.href = "/proyectofinal/templates/productos.html";
-        })
-        .catch(err => {
-          console.error(err);
-          alert("Error al Modificar");
-        });
+    methods: {
+        fetchData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    this.id = data.id
+                    this.nombre = data.nombre;
+                    this.imagen = data.imagen
+                    this.stock = data.stock
+                    this.precio = data.precio
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.error = true
+                })
+        },
+        modificar() {
+            let producto = {
+                nombre: this.nombre,
+                precio: this.precio,
+                stock: this.stock,
+                imagen: this.imagen
+            }
+            var options = {
+                body: JSON.stringify(producto),
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                redirect: 'follow'
+            }
+            Swal.fire({
+                title: 'Queres modificar el producto?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Actualizar producto',
+                denyButtonText: `Cancelar edición`,    
+                cancelButtonText:'Seguir editando'            
+                }).then((result) => {               
+                if (result.isConfirmed) {
+                    fetch(this.url, options)
+                    .then(function () {                       
+                        setTimeout(time=>{window.location.href = "./productos.html";},1200) 
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Error al Modificar")
+                    })
+                    Swal.fire('Producto actualizado!', '', 'success')
+                    
+                } else if (result.isDenied) {
+                    Swal.fire('No se guardaron los cambios', '', 'info')
+                    setTimeout(time=>{window.location.href = "./productos.html";},1200) 
+                }
+            })           
+        }
     },
-  },
-});
-
-app.mount('#app');
+    created() {
+        this.fetchData(this.url)
+    },
+}).mount('#app')
