@@ -1,79 +1,111 @@
-Vue.createApp({
+const { createApp } = Vue;
+
+createApp({
   data() {
     return {
+      productos: [],
+      url: 'http://mviktoriau.pythonanywhere.com/producto',
       error: false,
-      loading: true,
-      amigurumis: [], // Variable para almacenar los amigurumis
-      patrones: [], // Variable para almacenar los patrones
-      productos: [] // Variable para almacenar los productos generales
+      cargando: true,
+      /*atributos para el guardar los valores del formulario */
+      id: 0,
+      nombre: "",
+      imagen: "",
+      stock: 0,
+      precio: 0,
     };
   },
-  mounted() {
-    // Ejemplo de solicitud para obtener los amigurumis
-    axios.get('/api/amigurumis')
-      .then(response => {
-        this.amigurumis = response.data;
-      })
-      .catch(error => {
-        this.error = true;
-        console.error(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
-
-    // Ejemplo de solicitud para obtener los patrones
-    axios.get('/api/patrones')
-      .then(response => {
-        this.patrones = response.data;
-      })
-      .catch(error => {
-        this.error = true;
-        console.error(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
-
-    // Ejemplo de solicitud para obtener los productos generales
-    axios.get('/api/productos')
-      .then(response => {
-        this.productos = response.data;
-      })
-      .catch(error => {
-        this.error = true;
-        console.error(error);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+  computed: {
+    amigurumis() {
+      return this.productos.filter(producto => producto.tipo === 'amigurumi');
+    },
+    patrones() {
+      return this.productos.filter(producto => producto.tipo === 'patron');
+    }
   },
   methods: {
-    eliminar(id) {
-      // Aquí implementarías la lógica para eliminar un producto según su ID
-    }
-  }
-}).mount('#app');
-Vue.createApp({
-  data() {
-      return {
-          amigurumis: [],
-          patrones: [],
-          loading: true,
-          error: false
+    fetchData(url) {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          this.productos = data.filter(producto => producto.tipo === 'amigurumi' || producto.tipo === 'patron');
+          this.cargando = false;
+        })
+        .catch(err => {
+          console.error(err);
+          this.error = true;
+        });
+    },
+    eliminar(producto) {
+      const url = this.url + '/' + producto;
+      var options = {
+        method: 'DELETE',
       };
-  },
-  mounted() {
-      axios.get('/producto')
-          .then(response => {
-              this.amigurumis = response.data.amigurumis;
-              this.patrones = response.data.patrones;
-              this.loading = false;
+      Swal.fire({
+        title: '¿Estás seguro que quieres eliminar este producto?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Producto eliminado',
+            '',
+            'success'
+          );
+          fetch(url, options)
+            .then(res => res.text())
+            .then(res => {
+              setTimeout(time => { location.reload() }, 1200);
+            });
+        }
+      });
+    },
+    grabar() {
+      let producto = {
+        nombre: this.nombre,
+        precio: this.precio,
+        stock: this.stock,
+        imagen: this.imagen
+      };
+      if (producto.nombre == '') {
+        Swal.fire(
+          'Ha surgido un error',
+          'El producto debe tener al menos un nombre',
+          'error'
+        );
+      } else {
+        var options = {
+          body: JSON.stringify(producto),
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          redirect: 'follow'
+        };
+        fetch(this.url, options)
+          .then(function () {
+            Swal.fire(
+              'Producto dado de alta',
+              '',
+              'success'
+            );
+            setTimeout(time => { window.location.href = "./productos.html"; }, 1200);
           })
-          .catch(error => {
-              console.error(error);
-              this.error = true;
-              this.loading = false;
+          .catch(err => {
+            console.error(err);
+            Swal.fire(
+              'Error al grabar',
+              '',
+              'error'
+            );
+            setTimeout(time => { window.location.href = "./productos.html"; }, 1200);
           });
+      }
+    }
+  },
+  created() {
+    this.fetchData(this.url);
   }
 }).mount('#app');
