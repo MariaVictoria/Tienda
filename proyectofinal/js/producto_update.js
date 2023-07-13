@@ -7,7 +7,7 @@ const app = Vue.createApp({
       imagenFile: null,
       stock: 0,
       precio: 0,
-      url: 'http://mviktoriau.pythonanywhere.com/api/productos/0',
+      url: 'http://mviktoriau.pythonanywhere.com/producto',
       amigurumis: [],
       patrones: [],
       cargando: true,
@@ -35,7 +35,7 @@ const app = Vue.createApp({
       });
 
     // Realiza la solicitud para obtener los amigurumis desde la API Flask
-    fetch('http://mviktoriau.pythonanywhere.com/api/amigurumis')
+    fetch('http://mviktoriau.pythonanywhere.com/amigurumi')
       .then(response => response.json())
       .then(data => {
         this.amigurumis = data;
@@ -46,7 +46,7 @@ const app = Vue.createApp({
       });
 
     // Realiza la solicitud para obtener los patrones desde la API Flask
-    fetch('http://mviktoriau.pythonanywhere.com/api/patrones')
+    fetch('http://mviktoriau.pythonanywhere.com/patron')
       .then(response => response.json())
       .then(data => {
         this.patrones = data;
@@ -79,7 +79,7 @@ const app = Vue.createApp({
       fetch(this.url.replace('/0', `/${this.id}`), options)
         .then(() => {
           alert("Registro modificado");
-          window.location.href = "/proyectofinal/templates/productos.html";
+          window.location.href = "../proyectofinal/productos.html";
         })
         .catch(err => {
           console.error(err);
