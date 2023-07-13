@@ -43,7 +43,7 @@ const app = Vue.createApp({
         .then(response => response.json())
         .then(data => {
           console.log('Nuevo producto registrado:', data);
-          // Aquí puedes realizar acciones adicionales después de guardar el producto, como actualizar la lista de productos mostrados.
+          
         })
         .catch(error => {
           console.error('Error al registrar el producto:', error);
