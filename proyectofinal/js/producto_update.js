@@ -39,7 +39,7 @@ const app = Vue.createApp({
         .then(response => response.json())
         .then(data => {
           console.log('Producto actualizado:', data);
-          // Aquí puedes realizar acciones adicionales después de actualizar el producto, como mostrar un mensaje de éxito o redirigir a otra página.
+          
         })
         .catch(error => {
           console.error('Error al actualizar el producto:', error);
