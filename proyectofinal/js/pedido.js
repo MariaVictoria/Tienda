@@ -10,7 +10,7 @@ const app = Vue.createApp({
       seña: '',
       fechaEntrega: '',
       consultaEstado: '',
-      url: 'http://mviktoriau.pythonanywhere.com/pedidos',
+      url: 'http://mviktoriau.pythonanywhere.com/pedido',
       error: false,
       cargando: true,
     };
