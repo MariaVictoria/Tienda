@@ -19,7 +19,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="../css/main_index.css">
-    <script src="./js/productos.js"></script>
 
     <title>V i c k y G u r u m i S - Productos</title>
 </head>
@@ -108,6 +107,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="producto in productos" :key="producto.id">
+                                    <td scope="row">{{producto.id}}</td>
                                     <td>{{ producto.nombre }}</td>
                                     <td>{{ producto.precio }}</td>
                                     <td>{{ producto.stock }}</td>
