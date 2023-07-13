@@ -13,7 +13,7 @@ const app = Vue.createApp({
         imagenUrl: '',
         imagenPreview: '',
       },
-      url: 'hhttp://mviktoriau.pythonanywhere.com/amigurumi',
+      url: 'http://mviktoriau.pythonanywhere.com/amigurumi',
     };
   },
   methods: {
