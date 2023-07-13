@@ -1,8 +1,12 @@
-const { createApp } = Vue;
-
-createApp({
+const app = Vue.createApp({
   data() {
     return {
+      nombreProducto: '',
+      descripcion: '',
+      precio: 0,
+      stock: '',
+      imagenUrl: '',
+      imagenPreview: '',
       productos: [],
       url: 'http://mviktoriau.pythonanywhere.com/amigurumi',
       error: false,
@@ -11,13 +15,23 @@ createApp({
   },
   computed: {
     amigurumis() {
-      return this.productos.filter(producto => producto.tipo === 'amigurumi');
-    },
-    patrones() {
-      return this.productos.filter(producto => producto.tipo === 'patron');
+      return this.productos;
     },
   },
   methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      this.imagenUrl = URL.createObjectURL(file);
+      this.imagenPreview = this.imagenUrl;
+    },
+    grabar() {
+      // Aquí puedes enviar los datos del producto a tu API o realizar otras acciones necesarias
+      console.log('Nombre:', this.nombreProducto);
+      console.log('Descripción:', this.descripcion);
+      console.log('Precio:', this.precio);
+      console.log('Estado:', this.stock);
+      console.log('Imagen:', this.imagenUrl);
+    },
     fetchData() {
       fetch(this.url)
         .then(response => response.json())
@@ -30,34 +44,10 @@ createApp({
           this.error = true;
         });
     },
-    eliminar(producto) {
-      const url = `${this.url}/${producto.idproducto}`;
-      var options = {
-        method: 'DELETE',
-      };
-      Swal.fire({
-        title: '¿Estás seguro que quieres eliminar este producto?',
-        text: '',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar!',
-      }).then(result => {
-        if (result.isConfirmed) {
-          Swal.fire('Producto eliminado', '', 'success');
-          fetch(url, options)
-            .then(res => res.text())
-            .then(res => {
-              setTimeout(() => {
-                location.reload();
-              }, 1200);
-            });
-        }
-      });
-    },
   },
   created() {
     this.fetchData();
   },
-}).mount('#app');
+});
+
+app.mount('#app');
