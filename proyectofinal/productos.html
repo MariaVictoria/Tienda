@@ -78,25 +78,44 @@
         </nav>
     </header>
  <main>
+      <main>
         <div id="app" class="container">
-            <!-- Código omitido por brevedad -->
-            <div class="amigurumis-section">
-                <h1>Amigurumis y Patrones</h1>
-                <div v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
-                    <!-- Contenido que deseas mostrar para cada amigurumi -->
+            <br>
+
+            <h1> Aquí podrás consultar nuestros productos "Vicky GurumiS" </h1>
+            <br>
+            <a class="btn btn-Nuevo" href="producto_nuevo.html">Nuevo</a>
+
+            <br><br>
+            <div v-if="error">
+                <p>Lo sentimos, ha ocurrido un error.</p>
+            </div>
+            <div v-else>
+                <div v-if="loading">
+                    <div class="spinner-border"></div>
+                    <h5>
+                        <p>Cargando...</p>
+                    </h5>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Imagen</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+
+                <div class="amigurumis-section">
+                    <h1>Amigurumis y Patrones</h1>
+                    <div v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
+
+        <div id="app" class="container">
+              </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Imagen</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <tr v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
                                 <td>{{ amigurumi.nombre }}</td>
                                 <td>{{ amigurumi.precio }}</td>
