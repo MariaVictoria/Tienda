@@ -126,57 +126,7 @@
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
         crossorigin="anonymous"></script>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const productoId = urlParams.get('id');
-
-        const app = Vue.createApp({
-            data() {
-                return {
-                    id: '',
-                    nombre: '',
-                    precio: '',
-                    stock: '',
-                    imagenUrl: '',
-                    imagenPreview: ''
-                };
-            },
-            mounted() {
-                this.cargarProducto();
-            },
-            methods: {
-                cargarProducto() {
-                    axios
-                        .get(`https://mviktoriau.pythonanywhere.com/api/amigurumi/${productoId}`)
-                        .then(response => {
-                            const producto = response.data;
-                            this.id = producto.idamigurumi;
-                            this.nombre = producto.nombre;
-                            this.precio = producto.precio;
-                            this.stock = producto.stock;
-                            this.imagenUrl = producto.imagen;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                },
-                handleFileUpload(event) {
-                    const file = event.target.files[0];
-                    this.imagenPreview = URL.createObjectURL(file);
-                },
-                modificar() {
-                    const nombre = document.getElementById('nombre').value;
-                    const precio = document.getElementById('precio').value;
-                    const stock = document.getElementById('stock').value;
-                    const imagen = document.getElementById('imagen').value;
-
-                    actualizarProducto(productoId, nombre, precio, stock, imagen);
-                }
-            }
-        });
-
-        app.mount('#app');
-    </script>
+    
 </body>
 
 </html>
