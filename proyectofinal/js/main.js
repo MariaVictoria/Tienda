@@ -1,7 +1,6 @@
-document.getElementById("header").innerHTML=` <nav class="navbar navbar-expand-sm
-navbar-light bg-light">
-<div class="container">
-<a class="navbar-brand" href="../productos.html">CRUD</a>
+var endPoint = 'https://mviktoriau.pythonanywhere.com/';
+//var endPoint = 'http://127.0.0.1:5000/';
 
-</div>
-</nav>`
+document.getElementById("header").innerHTML=` 
+
+</div>`
