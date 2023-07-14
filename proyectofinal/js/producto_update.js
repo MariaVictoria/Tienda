@@ -1,6 +1,6 @@
 function getProductos() {
   axios
-    .get('https://mviktoriau.pythonanywhere.com/api/amigurumi')
+    .get('https://mviktoriau.pythonanywhere.com/amigurumi')
     .then(response => {
       const data = response.data;
       console.log('Amigurumis:', data);
@@ -20,7 +20,7 @@ function actualizarProducto(id, nombre, precio, stock, imagen) {
   };
 
   axios
-    .put(`https://mviktoriau.pythonanywhere.com/api/amigurumi/${id}`, data)
+    .put(`https://mviktoriau.pythonanywhere.com/amigurumi/${id}`, data)
     .then(response => {
       console.log('Amigurumi actualizado:', response.data);
     })
@@ -33,7 +33,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const productoId = urlParams.get('id');
 
 axios
-  .get(`https://mviktoriau.pythonanywhere.com/api/amigurumi/${productoId}`)
+  .get(`https://mviktoriau.pythonanywhere.com/amigurumi/${productoId}`)
   .then(response => {
     const producto = response.data;
     document.getElementById('id').value = producto.idamigurumi;
