@@ -1,17 +1,16 @@
-from flask import Flask, jsonify, request, render_template, send_file
+from flask import Flask, jsonify, request,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from flask_cors import CORS
+from flask_cors import CORS 
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:***@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-
 
 class Producto(db.Model):
     __tablename__ = 'producto'
@@ -19,9 +18,18 @@ class Producto(db.Model):
     tipo = db.Column(db.String(20))
     amigurumis = db.relationship('Amigurumi', backref='producto', lazy=True)
     patrones = db.relationship('Patron', backref='producto', lazy=True)
-
+    
     def __init__(self, tipo):
         self.tipo = tipo
+        
+        
+class ProductoSchema(ma.Schema):
+    class Meta:
+        model = Producto
+        fields = ('idproducto', 'tipo')
+
+producto_schema = ProductoSchema()
+productos_schema = ProductoSchema(many=True)
 
 
 class Amigurumi(db.Model):
@@ -33,7 +41,7 @@ class Amigurumi(db.Model):
     descripcion = db.Column(db.String(500))
     precio = db.Column(db.Float)
     stock = db.Column(db.String(20))
-    imagen = db.Column(db.String(500))
+    imagen = db.Column(db.String(255))
 
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
@@ -54,7 +62,7 @@ class Patron(db.Model):
     descripcion = db.Column(db.String(500))
     precio = db.Column(db.Float)
     stock = db.Column(db.Integer)
-    imagen = db.Column(db.String(500))
+    imagen = db.Column(db.String(255))
 
     def __init__(self, idproducto, codigo, nombre, descripcion, precio, stock, imagen):
         self.idproducto = idproducto
@@ -75,7 +83,7 @@ class Pedido(db.Model):
     cantidad_solicitada = db.Column(db.Integer)
     precio = db.Column(db.Float)
     fecha_pedido = db.Column(db.Date)
-    estado_pedido = db.Column(db.VARCHAR(20))
+    estado_pedido = db.Column(db.String(20))
 
     def __init__(self, idcliente, fecha, idproducto, cantidad_solicitada, precio, fecha_pedido, estado_pedido):
         self.idcliente = idcliente
@@ -96,6 +104,7 @@ class Cliente(db.Model):
     cel = db.Column(db.String(15), nullable=False)
     direccion = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(32), nullable=False)
 
     def __init__(self, nombre, apellido, edad, cel, direccion, email, password):
         self.nombre = nombre
@@ -104,6 +113,7 @@ class Cliente(db.Model):
         self.cel = cel
         self.direccion = direccion
         self.email = email
+        self.password = password
 
 
 class Factura(db.Model):
@@ -117,10 +127,8 @@ class Factura(db.Model):
         self.fecha_emision = fecha_emision
 
 
-class ProductoSchema(ma.Schema):
-    class Meta:
-        model = Producto
-        fields = ('idproducto', 'tipo')
+with app.app_context():
+    db.create_all()
 
 
 class AmigurumiSchema(ma.Schema):
@@ -146,36 +154,31 @@ class ClienteSchema(ma.Schema):
         model = Cliente
         fields = ('idcliente', 'nombre', 'apellido', 'edad', 'cel', 'direccion', 'email', 'password')
 
-
 class FacturaSchema(ma.Schema):
     class Meta:
         model = Factura
         fields = ('idfactura', 'idcliente', 'fecha_emision')
 
 
-producto_schema = ProductoSchema()
-productos_schema = ProductoSchema(many=True)
 amigurumi_schema = AmigurumiSchema()
-amigurumis_schema = AmigurumiSchema(many=True)
 patron_schema = PatronSchema()
-patrones_schema = PatronSchema(many=True)
 pedido_schema = PedidoSchema()
-pedidos_schema = PedidoSchema(many=True)
 cliente_schema = ClienteSchema()
-clientes_schema = ClienteSchema(many=True)
 factura_schema = FacturaSchema()
+
+amigurumis_schema = AmigurumiSchema(many=True)
+patrones_schema = PatronSchema(many=True)
+pedidos_schema = PedidoSchema(many=True)
+clientes_schema = ClienteSchema(many=True)
 facturas_schema = FacturaSchema(many=True)
 
+# Rutas
 
-@app.route('/')
-def hello_world():
-    print('Hello YOU !')
-    return send_file('ingresar.html')
+#**************productos*********************
 
-
-@app.route('/api/productos', methods=['POST'])
+app.route("/api/productos", methods=["POST"])
 def create_producto():
-    tipo = request.json['tipo']
+    tipo = request.json["tipo"]
 
     new_producto = Producto(tipo)
 
@@ -185,7 +188,12 @@ def create_producto():
     return producto_schema.jsonify(new_producto)
 
 
-@app.route('/api/productos', methods=['GET'])
+@app.route('/productos')
+def mostrar_productos():
+    productos = Producto.query.all()  # Reemplaza esto con tu propia función para obtener los productos desde la base de datos
+    return render_template('productos.html', productos=productos)
+
+@app.route('/producto', methods=['GET'])
 def get_productos():
     productos = Producto.query.all()
     productos_data = []
@@ -206,46 +214,47 @@ def get_productos():
 
     return jsonify(productos_data)
 
-
-@app.route('/api/productos/<int:id>', methods=['PUT'])
+@app.route("/api/productos/<int:id>", methods=["PUT"])
 def update_producto(id):
     producto = Producto.query.get(id)
     if producto:
-        producto.tipo = request.json['tipo']
+        producto.tipo = request.json["tipo"]
         db.session.commit()
-        return jsonify({'message': 'Producto actualizado correctamente'})
+        return jsonify({"message": "Producto actualizado correctamente"})
     else:
-        return jsonify({'message': 'Producto no encontrado'}), 404
+        return jsonify({"message": "Producto no encontrado"}), 404
 
 
-@app.route('/api/productos/<int:id>', methods=['DELETE'])
+@app.route("/api/productos/<int:id>", methods=["DELETE"])
 def delete_producto(id):
     producto = Producto.query.get(id)
 
     if producto:
         db.session.delete(producto)
         db.session.commit()
-        return jsonify({'message': 'Producto eliminado correctamente'})
+        return jsonify({"message": "Producto eliminado correctamente"})
     else:
-        return jsonify({'message': 'Producto no encontrado'}), 404
+        return jsonify({"message": "Producto no encontrado"}), 404
 
 
-@app.route('/amigurumi', methods=['POST'])
+
+#**************Amigurumis********************
+
+@app.route("/amigurumi", methods=["POST"])
 def create_amigurumi():
-    idproducto = request.json['idproducto']
-    codigo = request.json['codigo']
-    nombre = request.json['nombre']
-    descripcion = request.json['descripcion']
-    precio = request.json['precio']
-    stock = request.json['stock']
-    imagen = request.json['imagen']
+    idproducto = request.json["idproducto"]
+    codigo = request.json["codigo"]
+    nombre = request.json["nombre"]
+    descripcion = request.json["descripcion"]
+    precio = request.json["precio"]
+    stock = request.json["stock"]
+    imagen = request.json["imagen"]
     new_amigurumi = Amigurumi(idproducto, codigo, nombre, descripcion, precio, stock, imagen)
 
     db.session.add(new_amigurumi)
     db.session.commit()
 
     return amigurumi_schema.jsonify(new_amigurumi)
-
 
 @app.route('/amigurumi', methods=['GET'])
 def get_amigurumi():
@@ -254,52 +263,45 @@ def get_amigurumi():
     return jsonify(result)
 
 
-@app.route('/amigurumi/<id>', methods=['PUT'])
+@app.route("/amigurumi/<id>", methods=["PUT"])
 def update_amigurumi(id):
     amigurumi = Amigurumi.query.get(id)
     if amigurumi:
-        amigurumi.idproducto = request.json['idproducto']
-        amigurumi.codigo = request.json['codigo']
-        amigurumi.nombre = request.json['nombre']
-        amigurumi.descripcion = request.json['descripcion']
-        amigurumi.precio = request.json['precio']
-        amigurumi.stock = request.json['stock']
-        amigurumi.imagen = request.json['imagen']
+        amigurumi.idproducto = request.json["idproducto"]
+        amigurumi.codigo = request.json["codigo"]
+        amigurumi.nombre = request.json["nombre"]
+        amigurumi.descripcion = request.json["descripcion"]
+        amigurumi.precio = request.json["precio"]
+        amigurumi.stock = request.json["stock"]
+        amigurumi.imagen = request.json["imagen"]
 
         db.session.commit()
-        return jsonify({'message': 'Amigurumi actualizado correctamente'})
+        return jsonify({"message": "Amigurumi actualizado correctamente"})
     else:
-        return jsonify({'message': 'Amigurumi no encontrado'}), 404
+        return jsonify({"message": "Amigurumi no encontrado"}), 404
 
 
-@app.route('/amigurumi/<id>', methods=['DELETE'])
+@app.route("/amigurumi/<id>", methods=["DELETE"])
 def delete_amigurumi(id):
     amigurumi = Amigurumi.query.get(id)
 
     if amigurumi:
         db.session.delete(amigurumi)
         db.session.commit()
-        return jsonify({'message': 'Amigurumi eliminado correctamente'})
+        return jsonify({"message": "Amigurumi eliminado correctamente"})
     else:
-        return jsonify({'message': 'Amigurumi no encontrado'}), 404
+        return jsonify({"message": "Amigurumi no encontrado"}), 404
+#**************Patrones********************
 
-
-@app.route('/patron', methods=['POST'])
+@app.route("/patron", methods=["POST"])
 def create_patron():
-    idproducto = request.json['idproducto']
-    codigo = request.json['codigo']
-    nombre = request.json['nombre']
-    descripcion = request.json['descripcion']
-    precio = request.json['precio']
-    stock = request.json['stock']
-    imagen = request.json['imagen']
-    new_patron = Patron(idproducto, codigo, nombre, descripcion, precio, stock, imagen)
+    tipo = request.json["tipo"]
+    new_patron = Patron(tipo)
 
     db.session.add(new_patron)
     db.session.commit()
 
     return patron_schema.jsonify(new_patron)
-
 
 @app.route('/patron', methods=['GET'])
 def get_patron():
@@ -307,72 +309,55 @@ def get_patron():
     result = patrones_schema.dump(all_patrones)
     return jsonify(result)
 
-
-@app.route('/patron/<id>', methods=['PUT'])
+@app.route("/patron/<id>", methods=["PUT"])
 def update_patron(id):
     patron = Patron.query.get(id)
     if patron:
-        patron.idproducto = request.json['idproducto']
-        patron.codigo = request.json['codigo']
-        patron.nombre = request.json['nombre']
-        patron.descripcion = request.json['descripcion']
-        patron.precio = request.json['precio']
-        patron.stock = request.json['stock']
-        patron.imagen = request.json['imagen']
-
+        patron.tipo = request.json["tipo"]
         db.session.commit()
-        return jsonify({'message': 'Patrón actualizado correctamente'})
+        return jsonify({"message": "Patrón actualizado correctamente"})
     else:
-        return jsonify({'message': 'Patrón no encontrado'}), 404
+        return jsonify({"message": "Patrón no encontrado"}), 404
 
-
-@app.route('/patron/<id>', methods=['DELETE'])
+@app.route("/patron/<id>", methods=["DELETE"])
 def delete_patron(id):
     patron = Patron.query.get(id)
 
     if patron:
         db.session.delete(patron)
         db.session.commit()
-        return jsonify({'message': 'Patrón eliminado correctamente'})
+        return jsonify({"message": "Patrón eliminado correctamente"})
     else:
-        return jsonify({'message': 'Patrón no encontrado'}), 404
+        return jsonify({"message": "Patrón no encontrado"}), 404
 
+#**************Pedidos********************
 
-@app.route('/pedido', methods=['POST'])
+@app.route("/pedido", methods=["POST"])
 def create_pedido():
-    idcliente = request.json['idcliente']
-    fecha = request.json['fecha']
-    idproducto = request.json['idproducto']
-    cantidad_solicitada = request.json['cantidad_solicitada']
-    precio = request.json['precio']
-    fecha_pedido = request.json['fecha_pedido']
-    estado_pedido = request.json['estado_pedido']
-    new_pedido = Pedido(idcliente, fecha, idproducto, cantidad_solicitada, precio, fecha_pedido, estado_pedido)
+    tipo = request.json["tipo"]
+    new_pedido = Pedido(tipo)
 
     db.session.add(new_pedido)
     db.session.commit()
 
-    return jsonify({'message': 'Pedido creado correctamente'})
-
-
+    return jsonify({"message": "Pedido creado correctamente"})
+ 
 @app.route('/pedido', methods=['GET'])
 def get_pedido():
     all_pedidos = Pedido.query.all()
     result = pedidos_schema.dump(all_pedidos)
     return jsonify(result)
 
-
-@app.route('/pedido/<id>', methods=['DELETE'])
+@app.route("/pedido/<id>", methods=["DELETE"])
 def delete_pedido(id):
     pedido = Pedido.query.get(id)
 
     if pedido:
         db.session.delete(pedido)
         db.session.commit()
-        return jsonify({'message': 'Pedido eliminado correctamente'})
+        return jsonify({"message": "Pedido eliminado correctamente"})
     else:
-        return jsonify({'message': 'Pedido no encontrado'}), 404
-
+        return jsonify({"message": "Pedido no encontrado"}), 404
 
 @app.route('/cliente', methods=['GET'])
 def get_cliente():
@@ -380,13 +365,29 @@ def get_cliente():
     result = clientes_schema.dump(all_clientes)
     return jsonify(result)
 
-
 @app.route('/factura', methods=['GET'])
 def get_factura():
     all_facturas = Factura.query.all()
     result = facturas_schema.dump(all_facturas)
     return jsonify(result)
 
+#*************#*************#*************#*************#*************
+@app.route("/producto/<id>", methods=["PUT"])
+def update_producto(id):
+    producto = Producto.query.get(id)
+    if producto:
+        producto.tipo = request.json["tipo"]
+        db.session.commit()
+        return jsonify({"message": "Producto actualizado correctamente"})
+    else:
+        return jsonify({"message": "Producto no encontrado"}), 404
 
+
+# programa principal *******************************
 if __name__ == '__main__':
-    app.run(debug=False, port=5500)
+    app.run(debug=True, port=8083)
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello YOU !'
