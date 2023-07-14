@@ -7,7 +7,7 @@ const app = Vue.createApp({
         stock: '',
         imagenUrl: '',
         imagenPreview: '',
-        productos: [],
+        amigurumi: [],
         url: 'http://mviktoriau.pythonanywhere.com/amigurumi',
         error: false,
         cargando: true,
@@ -15,7 +15,7 @@ const app = Vue.createApp({
     },
     computed: {
       amigurumis() {
-        return this.productos;
+        return this.amigurumi;
       },
     },
     methods: {
@@ -53,7 +53,7 @@ const app = Vue.createApp({
         fetch(this.url)
           .then(response => response.json())
           .then(data => {
-            this.productos = data;
+            this.amigurumi = data;
             this.cargando = false;
           })
           .catch(err => {
