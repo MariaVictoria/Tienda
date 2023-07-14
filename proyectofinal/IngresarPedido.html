@@ -80,55 +80,52 @@
     </header>
     
   <main>
-    <br>
-    <h1> Pedidos a "Vicky GurumiS" </h1>
-    <br>
-    <div class="table-responsive">
-        <div id="app"></div>
+  <br>
+  <h1> Pedidos a "Vicky GurumiS" </h1>
+  <br>
+  <div class="table-responsive">
+    <div id="app"></div>
 
-      <div class="container" >
-        <form style="background-color: rgb(143, 197, 245);margin:10px auto ; width: 400px; padding: 20px;">
-          <h1>Ingresar el Pedido</h1>
+    <div class="container">
+      <form style="background-color: rgb(143, 197, 245); margin: 10px auto; width: 400px; padding: 20px;">
+        <h1>Ingresar el Pedido</h1>
 
-          <div class="mb-3">
-            <label for="fecha">Fecha</label>
-            <input type="text" name="fecha" id="fecha" v-model="fecha">
-          </div>
-          <div class="mb-3">
-            <label for="datosCliente">Datos de cliente</label>
-            <input type="text" name="datosCliente" id="datosCliente" v-model="datosCliente">
-          </div>
-          <div class="mb-3">
-            <label for="producto">Nombre y descripción del producto</label>
-            <input type="text" name="producto" id="producto" v-model="producto">
-          </div>
-          <div class="mb-3">
-            <label for="imagen">Imagen de lo que quieres (URL o subir desde tu computadora)</label>
-            <input type="text" name="imagen" id="imagen" v-model="imagenUrl">
-            <input type="file" id="imagenUpload" @change="handleFileUpload">
-            <img width="100" :src="imagenPreview" alt="">
-          </div>
+        <div class="mb-3">
+          <label for="fecha">Fecha</label>
+          <input type="text" name="fecha" id="fecha" v-model="fecha">
+        </div>
+        <div class="mb-3">
+          <label for="datosCliente">Datos de cliente</label>
+          <input type="text" name="datosCliente" id="datosCliente" v-model="datosCliente">
+        </div>
+        <div class="mb-3">
+          <label for="producto">Nombre y descripción del producto</label>
+          <input type="text" name="producto" id="producto" v-model="producto">
+        </div>
+        <div class="mb-3">
+          <label for="imagen">Imagen de lo que quieres (URL o subir desde tu computadora)</label>
+          <input type="text" name="imagen" id="imagen" v-model="imagenUrl">
+          <input type="file" id="imagenUpload" @change="handleFileUpload">
+          <img width="100" :src="imagenPreview" alt="">
+        </div>
 
-          <div class="mb-3">
-            <label for="cantidad">Cantidad solicitada</label>
-            <input type="text" name="cantidad" id="cantidad" v-model="cantidad">
-          </div>
-          <div class="mb-3">
-            <label for="seña">Seña</label>
-            <input type="text" name="seña" id="seña" v-model="seña">
-          </div>
-          <div class="mb-3">
-            <label for="fechaEntrega">Fecha entrega del pedido</label>
-            <input type="text" name="fechaEntrega" id="fechaEntrega" v-model="fechaEntrega">
-          </div>
-          <div class="mb-3">
-            <label for="consultaEstado">Consultar Estado del pedido</label>
-            <input type="text" name="consultaEstado" id="consultaEstado" v-model="consultaEstado">
-          </div>
-          <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
-        </form>
-      </div>
+        <div class="mb-3">
+          <label for="cantidad">Cantidad solicitada</label>
+          <input type="text" name="cantidad" id="cantidad" v-model="cantidad">
+        </div>
+        <div class="mb-3">
+          <label for="fechaEntrega">Fecha entrega del pedido</label>
+          <input type="text" name="fechaEntrega" id="fechaEntrega" v-model="fechaEntrega">
+        </div>
+        <div class="mb-3">
+          <label for="consultaEstado">Consultar Estado del pedido</label>
+          <input type="text" name="consultaEstado" id="consultaEstado" v-model="consultaEstado">
+        </div>
+        <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
+      </form>
     </div>
+  </div>
+
     <footer>
       <p class="parrafo1">Derechos&Reservados 2023</p>
       <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
