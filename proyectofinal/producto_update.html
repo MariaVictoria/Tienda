@@ -25,13 +25,15 @@
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./js/producto_update.js"></script>
 
-    <title>V i c k y G u r u m i S - Actualización de Productos  </title>
+    <title>Vicky GurumiS - Actualización de Productos</title>
 </head>
+
 <body>
     <header>
-        <img src="../iconos/Gurumis.png" class="img_logo" alt=" logo" />
+        <img src="../iconos/Gurumis.png" class="img_logo" alt="logo" />
         <label for="campo_nombre" id="nombreE">Vicky GurumiS</label>
         <input type="checkbox" id="check" />
         <label for="check">
@@ -41,7 +43,8 @@
             <ul>
                 <li><a href="../index.html">Inicio</a></li>
                 <li><a href="../info.html">Acerca de</a></li>
-                <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Productos</a>
+                <li>
+                    <a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Productos</a>
                     <ul>
                         <li><a href="#">Amigurumis</a>
                             <ul>
@@ -53,19 +56,18 @@
                         <li><a href="#">Patrones</a>
                             <ul>
                                 <li><a href="../patrones_free.html">Free</a></li>
-                                <li><a href="../patrones_de_pago.html">De_Pago</a></li>
+                                <li><a href="../patrones_de_pago.html">De Pago</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li><a href="../contacto.html">Contacto</a></li>
                 <li><a href="../carrito.html">Tienda</a></li>
-
-                <li><a href="#">De Administracion <br></a>
+                <li><a href="#">De Administracion<br></a>
                     <ul>
-                        <li><a href="productos.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Consultar Productos</a>
+                        <li><a href="productos.html">Consultar Productos</a></li>
                         <li><a href="producto_nuevo.html">Ingresar Producto Nuevo</a></li>
-                        <li><a href="producto_update.html">Actualizar Producto</a></li>
+                        <li><a href="producto_update.html" style="background: #e5c89f ; color:rgb(103, 100, 100)">Actualizar Producto</a></li>
                         <li><a href="IngresarPedido.html">Ingresar Pedido</a></li>
                     </ul>
                 </li>
@@ -73,16 +75,13 @@
         </nav>
     </header>
     <main>
-      
-<main>
-
         <br>
         <br>
-        <h1> Actualizacion de productos "Vicky GurumiS" </h1>
+        <h1>Actualización de Productos "Vicky GurumiS"</h1>
         <br>
         <br>
         <div class="container" id="app">
-            <form style="background-color: rgb(156, 146, 243);margin:10px auto ; width: 400px; padding: 20px;">
+            <form style="background-color: rgb(156, 146, 243); margin: 10px auto; width: 400px; padding: 20px;">
                 <h1>Actualizar el Producto</h1>
 
                 <div class="mb-3">
@@ -111,19 +110,15 @@
                 <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar</button>
             </form>
         </div>
-  
-   <footer>
-        <p class="parrafo1">Derechos&Reservados 2023</p>
+    </main>
+
+    <footer>
+        <p class="parrafo1">Derechos & Reservados 2023</p>
         <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
             <img src="../../img/Vicky_GurumiS.png" alt="Instagram" width="50" height="50" />
         </a>
-
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
-        
-  
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
@@ -131,8 +126,60 @@
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
         crossorigin="anonymous"></script>
 
-    
-</main>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productoId = urlParams.get('id');
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    id: '',
+                    nombre: '',
+                    precio: '',
+                    stock: '',
+                    imagenUrl: '',
+                    imagenPreview: ''
+                };
+            },
+            mounted() {
+                this.cargarProducto();
+            },
+            methods: {
+                cargarProducto() {
+                    axios
+                        .get(`https://mviktoriau.pythonanywhere.com/api/amigurumi/${productoId}`)
+                        .then(response => {
+                            const producto = response.data;
+                            this.id = producto.idamigurumi;
+                            this.nombre = producto.nombre;
+                            this.precio = producto.precio;
+                            this.stock = producto.stock;
+                            this.imagenUrl = producto.imagen;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                },
+                handleFileUpload(event) {
+                    const file = event.target.files[0];
+                    this.imagenPreview = URL.createObjectURL(file);
+                },
+                modificar() {
+                    const nombre = document.getElementById('nombre').value;
+                    const precio = document.getElementById('precio').value;
+                    const stock = document.getElementById('stock').value;
+                    const imagen = document.getElementById('imagen').value;
+
+                    actualizarProducto(productoId, nombre, precio, stock, imagen);
+                }
+            }
+        });
+
+        app.mount('#app');
+    </script>
 </body>
+
+</html>
+
 
 </html>
