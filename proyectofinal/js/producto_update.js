@@ -1,3 +1,65 @@
+  function getProductos() {
+            axios.get('https://mviktoriau.pythonanywhere.com/api/productos')
+                .then(response => {
+                    const data = response.data;
+                    console.log('Productos:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Realizar una solicitud PUT para actualizar un producto existente
+        function actualizarProducto(id, nombre, precio, stock, imagen) {
+            const data = {
+                idproducto: id,
+                nombre: nombre,
+                precio: precio,
+                stock: stock,
+                imagen: imagen
+            };
+
+            axios.put(`https://mviktoriau.pythonanywhere.com/api/productos/${id}`, data)
+                .then(response => {
+                    console.log('Producto actualizado:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Obtener el ID del producto de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productoId = urlParams.get('id');
+
+        // Obtener el producto actual por su ID y mostrar los datos en el formulario
+        axios.get(`https://mviktoriau.pythonanywhere.com/api/productos/${productoId}`)
+            .then(response => {
+                const producto = response.data;
+                document.getElementById('id').value = producto.idproducto;
+                document.getElementById('nombre').value = producto.nombre;
+                document.getElementById('precio').value = producto.precio;
+                document.getElementById('stock').value = producto.stock;
+                document.getElementById('imagen').value = producto.imagen;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // Manejar la actualización del producto al hacer clic en el botón "Grabar"
+        document.getElementById('btnGrabar').addEventListener('click', () => {
+            const nombre = document.getElementById('nombre').value;
+            const precio = document.getElementById('precio').value;
+            const stock = document.getElementById('stock').value;
+            const imagen = document.getElementById('imagen').value;
+
+            actualizarProducto(productoId, nombre, precio, stock, imagen);
+        });
+
+        // Ejecutar la función getProductos al cargar la página
+        getProductos();
+    </script>
+
 var id = location.search.substr(4);
 let valorid = document.getElementById("id");
 valorid.innerHTML = `${id}`;
