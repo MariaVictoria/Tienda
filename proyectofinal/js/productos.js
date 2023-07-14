@@ -1,6 +1,4 @@
-const { createApp } = Vue;
-
-createApp({
+const app = Vue.createApp({
   data() {
     return {
       error: false,
@@ -10,11 +8,11 @@ createApp({
   },
   methods: {
     fetchData() {
-      fetch('http://mviktoriau.pythonanywhere.com/amigurumi')
-        .then((response) => response.json())
-        .then((data) => {
+      axios
+        .get('http://mviktoriau.pythonanywhere.com/amigurumi')
+        .then((response) => {
           this.loading = false;
-          this.amigurumis = data;
+          this.amigurumis = response.data;
         })
         .catch((error) => {
           console.error(error);
@@ -26,5 +24,7 @@ createApp({
   created() {
     this.fetchData();
   },
-}).mount('#app');
-      
+});
+
+app.mount('#app');
+
