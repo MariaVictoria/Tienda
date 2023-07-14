@@ -3,7 +3,7 @@ createApp({
     data(){
         return {
             productos: [],                      
-            url: 'http://mviktoriau.pythonanywhere.com/producto', 
+            url: 'https://mviktoriau.pythonanywhere.com/amigurumi', 
             error: false,
             cargando: true,
             /*atributos para el guardar los valores del formulario */
