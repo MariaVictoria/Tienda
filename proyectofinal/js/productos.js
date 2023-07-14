@@ -2,27 +2,21 @@ const { createApp } = Vue
 createApp({
     data(){
         return {
-        amigurumi: [],
-        url: 'http://mviktoriau.pythonanywhere.com/amigurumi',
-        error: false,
-        cargando: true,
-        id: 0,
-        nombreProducto: '',
-        imagen: '',
-        descripcion: '',
-        precio: 0,
-        stock: 0,
-        imagenPreview: '', 
-      }
-    },
-    
-    computed: {
-      amigurumis() {
-        return this.amigurumi;
-      },
-    },
-    methods: {
-        fetchData(url) {
+            amigurumi: [],
+            url: 'http://mviktoriau.pythonanywhere.com/amigurumi',
+            error: false,
+            cargando: true,
+            id: 0,
+            nombreProducto: '',
+            imagen: '',
+            descripcion: '',
+            precio: 0,
+            stock: 0,
+            imagenPreview: '', 
+            }
+        },
+        methods: {
+            fetchData(url) {
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
