@@ -7,12 +7,12 @@ const app = Vue.createApp({
       imagenUrl: '',
       imagenPreview: '',
       cantidad: '',
-      seña: '',
       fechaEntrega: '',
       consultaEstado: '',
       url: 'http://mviktoriau.pythonanywhere.com/pedido',
       error: false,
       cargando: true,
+      pedidos: [],
     };
   },
   methods: {
@@ -28,7 +28,6 @@ const app = Vue.createApp({
         producto: this.producto,
         imagen: this.imagenUrl,
         cantidad: this.cantidad,
-        seña: this.seña,
         fechaEntrega: this.fechaEntrega,
         consultaEstado: this.consultaEstado,
       };
@@ -37,7 +36,6 @@ const app = Vue.createApp({
         .post(this.url, nuevoPedido)
         .then(response => {
           console.log('Nuevo pedido registrado:', response.data);
-        
         })
         .catch(error => {
           console.error('Error al registrar el pedido:', error);
