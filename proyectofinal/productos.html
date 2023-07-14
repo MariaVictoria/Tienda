@@ -93,7 +93,7 @@
             <div v-else>
     
             <div class="amigurumis-section">
-                            <h1>Amigurumis</h1>
+                            <h1>Amigurumis y Patrones</h1>
                             <div v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
 
                             </div>
@@ -101,6 +101,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Nombre</th>
                                             <th>Precio</th>
                                             <th>Stock</th>
@@ -112,6 +113,7 @@
 
                                         
                                         <tr v-for="producto in productos" :key="producto.id">
+                                            <td scope="row">{{producto.id}}</td>
                                             <td>{{ producto.nombre }}</td>
                                             <td>{{ producto.precio }}</td>
                                             <td>{{ producto.stock }}</td>
@@ -134,41 +136,7 @@
 
             </div>
                     
-            <div class="patrones-section">
-                        <h1>Patrones</h1>
-                        <div v-for="patron in patrones" :key="patron.idpatron">
-
-                        </div>
-
-                        <div class="table-responsive">
-                             <table class="table table-bordered">
-                                <thead>
-                                 <tr>
-                                             <th>Nombre</th>
-                                             <th>Precio</th>
-                                             <th>Stock</th>
-                                             <th>Imagen</th>
-                                             <th>Acciones</th>
-                                 </tr>
-                                </thead>
-                        <tbody>
-                            <tr v-for="producto in productos" :key="producto.id">
-                                <td>{{ producto.nombre }}</td>
-                                <td>{{ producto.precio }}</td>
-                                <td>{{ producto.stock }}</td>
-                                <td>
-                                    <img width="60" :src="producto.imagen" :alt="producto.nombre">
-                                </td>
-                                <td>
-                                    <a class="btn btn-editar" :href="'producto_update.html?id=' + producto.id"
-                                        target="_blank">Editar</a>
-                                    <button type="button" class="btn btn-eliminar"
-                                        v-on:click="eliminar(producto.id)">Eliminar</button>
-                                </td>
-                            </tr>
-                         </tbody>
-                            </table>
-                         </div>
+       
             </div>
         </div>
         </div>
@@ -180,17 +148,16 @@
             <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
                 <img src="../img/Vicky_GurumiS.png" alt="Instagram" width="50" height="50" /></a>
         </footer>
-        <script>
-            <!--Link de Bootstrap-->
-            src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            integrity = "sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-            crossorigin = "anonymous"</script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+             
+            
+            <!-- // <script> src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            // integrity = "sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            // crossorigin = "anonymous"</script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
             integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-            crossorigin="anonymous"></script>
-        <script src=".js/main.js"></script>
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->
-        <script src="./js/productos.js"></script>
+            crossorigin="anonymous"></script> -->
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->
+            <script src="./js/productos.js"></script>
     </main>
 </body>
 
