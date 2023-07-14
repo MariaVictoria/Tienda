@@ -1,59 +1,75 @@
-getProductos();
-
-    function getProductos() {
-      axios
-        .get('https://mviktoriau.pythonanywhere.com/amigurumi')
-        .then(response => {
-          const data = response.data;
-          console.log('Amigurumis:', data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-
-    function actualizarProducto(id, nombre, precio, stock, imagen) {
-      const data = {
-        idamigurumi: id,
-        nombre: nombre,
-        precio: precio,
-        stock: stock,
-        imagen: imagen
-      };
-
-      axios
-        .put(`https://mviktoriau.pythonanywhere.com/amigurumi/${id}`, data)
-        .then(response => {
-          console.log('Amigurumi actualizado:', response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const productoId = urlParams.get('id');
-
-    axios
-      .get(`https://mviktoriau.pythonanywhere.com/amigurumi/${productoId}`)
-      .then(response => {
-        const producto = response.data;
-        document.getElementById('id').value = producto.idamigurumi;
-        document.getElementById('nombre').value = producto.nombre;
-        document.getElementById('precio').value = producto.precio;
-        document.getElementById('stock').value = producto.stock;
-        document.getElementById('imagen').value = producto.imagen;
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-    document.getElementById('btnGrabar').addEventListener('click', () => {
-      const nombre = document.getElementById('nombre').value;
-      const precio = document.getElementById('precio').value;
-      const stock = document.getElementById('stock').value;
-      const imagen = document.getElementById('imagen').value;
-
-      actualizarProducto(productoId, nombre, precio, stock, imagen);
-    });
- 
+console.log(location.search) // lee los argumentos pasados a este formulario
+var id=location.search.substr(4)
+console.log(id)
+const { createApp } = Vue
+createApp({
+    data() {
+        return {
+            id: 0,
+            nombre: "",
+            imagen: "",
+            stock: 0,
+            precio: 0,
+            url: 'http://mviktoriau.pythonanywhere.com/producto' + id,
+        }
+    },
+    methods: {
+        fetchData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    this.id = data.id
+                    this.nombre = data.nombre;
+                    this.imagen = data.imagen
+                    this.stock = data.stock
+                    this.precio = data.precio
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.error = true
+                })
+        },
+        modificar() {
+            let producto = {
+                nombre: this.nombre,
+                precio: this.precio,
+                stock: this.stock,
+                imagen: this.imagen
+            }
+            var options = {
+                body: JSON.stringify(producto),
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                redirect: 'follow'
+            }
+            Swal.fire({
+                title: 'Queres modificar el producto?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Actualizar producto',
+                denyButtonText: `Cancelar edición`,    
+                cancelButtonText:'Seguir editando'            
+                }).then((result) => {               
+                if (result.isConfirmed) {
+                    fetch(this.url, options)
+                    .then(function () {                       
+                        setTimeout(time=>{window.location.href = "./productos.html";},1200) 
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Error al Modificar")
+                    })
+                    Swal.fire('Producto actualizado!', '', 'success')
+                    
+                } else if (result.isDenied) {
+                    Swal.fire('No se guardaron los cambios', '', 'info')
+                    setTimeout(time=>{window.location.href = "./productos.html";},1200) 
+                }
+            })           
+        }
+    },
+    created() {
+        this.fetchData(this.url)
+    },
+}).mount('#app')
