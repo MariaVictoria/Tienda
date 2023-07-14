@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+crossorigin="anonymous">
 
     <link
         rel="shortcut icon"
@@ -29,8 +30,6 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
-    <script src="./js/productos.js"></script>
-
 
     <title>V i c k y G u r u m i S - Productos </title>
 </head>
@@ -92,32 +91,37 @@
                 <p>Lo sentimos, ha ocurrido un error.</p>
             </div>
             <div v-else>
-                <div v-if="loading">
+                <section v-if="cargando">
+                
                     <div class="spinner-border"></div>
-                    <h5>
-                        <p>Cargando...</p>
-                    </h5>
-                </div>
-
+                        <h5>
+                            <p>Cargando...</p>
+                        </h5>
+                    </div>
+                </section>
+            <section v-else>
+            <div id="app" class="container">
+              </div>
                 <div class="amigurumis-section">
                     <h1>Amigurumis y Patrones</h1>
                     <div v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
 
-        <div id="app" class="container">
-              </div>
+       
                     <div class="table-responsive">
                         <table class="table table-bordered">
-                            <thead>
+                           <thead>
                                 <tr>
-                                  <th>Nombre</th>
-                                    <th>Precio</th>
-                                    <th>Stock</th>
-                                    <th>Imagen</th>
-                                    <th>Acciones</th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Precio</th>
                                 </tr>
-                            </thead>
+                                </thead>
                             <tbody>
-                            <tr v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
+                               
+                            <tr class="" v-for="amigurumi in amigurumis" :key="amigurumi.idamigurumi">
                                 <td>{{ amigurumi.nombre }}</td>
                                 <td>{{ amigurumi.precio }}</td>
                                 <td>{{ amigurumi.stock }}</td>
@@ -132,6 +136,7 @@
                         </tbody>
                     </table>
                 </div>
+            </section>
             </div>
         </div>
         <footer>
@@ -141,14 +146,19 @@
                 <img src="../img/Vicky_GurumiS.png" alt="Instagram" width="50" height="50" />
             </a>
       </footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
         
+        });
+  </script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
   integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
   crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
   integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
   crossorigin="anonymous"></script>
-
+    <script src="./js/productos.js"></script>
     
     
 </main>
