@@ -11,7 +11,7 @@ CORS(app) #modulo cors es para que me permita acceder desde el frontend al backe
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:Delfines/2@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://MViktoriaU:***@MViktoriaU.mysql.pythonanywhere-services.com/MViktoriaU$Tienda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
 
 db= SQLAlchemy(app)   #crea el objeto db de la clase SQLAlquemy
