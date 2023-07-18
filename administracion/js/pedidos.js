@@ -2,18 +2,18 @@ const { createApp } = Vue
 createApp({
     data() {
         return {
-            productos: [],
+            pedido: [],
             //url:'http://localhost:5000/productos',
             // si el backend esta corriendo local usar localhost 5000(si no lo subieron a pythonanywhere)
-            url: 'https://mviktoriau.pythonanywhere.com/amigurumi', // si ya lo subieron a pythonanywhere
+            url: 'https://vickygurumis.pythonanywhere.com/pedido', // si ya lo subieron a pythonanywhere
             error: false,
             cargando: true,
             /*atributos para el guardar los valores del formulario */
-            id: 0,
-            nombre: "",
-            imagen: "",
-            stock: 0,
-            precio: 0,
+            idpedido: 0,
+            idcliente: "",
+            idproducto:'',
+            cantidad:'',
+                        
         }
     },
     methods: {
@@ -21,7 +21,7 @@ createApp({
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    this.productos = data;
+                    this.pedidos = data;
                     this.cargando = false
                 })
                 .catch(err => {
@@ -29,8 +29,8 @@ createApp({
                     this.error = true
                 })
         },
-        eliminar(producto) {
-            const url = this.url + '/' + producto;
+        eliminar(pedido) {
+            const url = this.url + '/' + pedido;
             var options = {
                 method: 'DELETE',
             }
@@ -41,22 +41,24 @@ createApp({
                 })
         },
         grabar() {
-            let producto = {
-                nombre: this.nombre,
-                precio: this.precio,
-                stock: this.stock,
-                imagen: this.imagen
+            let pedido = {
+                
+                idpedido:this.idpedido,
+                idcliente: this.idcliente,
+                idproducto:this.idproducto,
+                cantidad:this.cantidad
+                           
             }
             var options = {
-                body: JSON.stringify(producto),
+                body: JSON.stringify(pedido),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 redirect: 'follow'
             }
             fetch(this.url, options)
                 .then(function () {
-                    alert("Registro grabado")
-                    window.location.href = "productos.html";
+                    alert("Pedido nuevo ingresado con éxito.")
+                    window.location.href = "IngresarPedido.html";
                 })
                 .catch(err => {
                     console.error(err);
