@@ -1,7 +1,7 @@
 from flask import Flask ,jsonify ,request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-import os
+
 # del modulo flask importar la clase Flask y los métodos jsonify,request
 from flask_cors import CORS       # del modulo flask_cors importar CORS
 
@@ -11,7 +11,7 @@ CORS(app) #modulo cors es para que me permita acceder desde el frontend al backe
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vickygurumis:***@vickygurumis.mysql.pythonanywhere-services.com/vickygurumis$tienda'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vickygurumis:IsaCaro2023@vickygurumis.mysql.pythonanywhere-services.com/vickygurumis$tienda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
 
 db= SQLAlchemy(app)   #crea el objeto db de la clase SQLAlquemy
@@ -26,8 +26,8 @@ class Producto(db.Model):
     descripcion = db.Column(db.String(500), nullable=False)
     disponibilidad = db.Column(db.String(20), nullable=False)
     precio = db.Column(db.Float, nullable=False)
-    
-    imagenUrl = db.Column(db.String(255), nullable=False)
+
+    imagen = db.Column(db.String(255), nullable=False)
     codigo = db.Column(db.String(100), nullable=False)
 
 
@@ -38,8 +38,8 @@ class Producto(db.Model):
         self.descripcion = descripcion
         self.disponibilidad=disponibilidad
         self.precio = precio
-       
-        self.imagenUrl = imagen
+
+        self.imagen = imagen
         self.codigo = codigo
 
 #*** esquema ***
@@ -66,7 +66,7 @@ def create_producto():
     descripcion = request.json.get("descripcion")
     disponibilidad= request.json.get('disponibilidad')
     precio = request.json.get("precio")
-    
+
     imagen = request.json.get("imagen")
     codigo = request.json.get("codigo")
 
@@ -87,12 +87,12 @@ def update_producto(id):
         producto.descripcion = request.json["descripcion"]
         producto.disponibilidad=request.json['disponibilidad']
         producto.precio = request.json["precio"]
-       
+
         producto.imagen = request.json["imagen"]
         producto.codigo = request.json["codigo"]
-        
+
         db.session.commit()
-        
+
         return jsonify({"message": "Producto actualizado correctamente"})
     else:
         return jsonify({"message": "Producto no encontrado"}), 404
@@ -115,14 +115,14 @@ class Pedido(db.Model):
     idcliente = db.Column(db.Integer, nullable=False)
     idproducto = db.Column(db.Integer)
     cantidad = db.Column(db.Integer)
-    
-    
+
+
     def __init__(self, idpedido, idcliente,idproducto, cantidad):
         self.idpedido=idpedido
         self.idcliente = idcliente
         self.idproducto = idproducto
         self.cantidad = cantidad
-        
+
 # Esquemas
 
 class PedidoSchema(ma.Schema):
@@ -203,14 +203,14 @@ with app.app_context():
 #  ************************************************************
 
 
+
+
 @app.route('/')
 def index():
     # Ruta de ejemplo que devuelve un archivo
-    filename =  'https://www.pythonanywhere.com/user/vickygurumis/files/home/vickygurumis/mysite'
 
     return send_file('Ingresar.html')
 
 if __name__ == '__main__':
     app.run(port=5000)
     # ejecuta el servidor Flask en el puerto 5000
-

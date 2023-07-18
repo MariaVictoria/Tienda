@@ -7,7 +7,7 @@ const app = Vue.createApp({
             descripcion: '',
             disponibilidad: '',
             precio: 0,
-            imagenUrl: '',
+            imagen: '',
             codigo: '',
             url: ''
         }
@@ -23,7 +23,7 @@ const app = Vue.createApp({
                     this.descripcion = data.descripcion
                     this.disponibilidad = data.disponibilidad
                     this.precio = data.precio
-                    this.imagenUrl = data.imagenUrl
+                    this.imagen = data.imagen
                     this.codigo = data.codigo
                 })
                 .catch(err => {
@@ -38,7 +38,7 @@ const app = Vue.createApp({
                 descripcion: this.descripcion,
                 disponibilidad: this.disponibilidad,
                 precio: this.precio,
-                imagenUrl: this.imagenUrl,
+                imagen: this.imagen,
                 codigo: this.codigo
             }
             var options = {
