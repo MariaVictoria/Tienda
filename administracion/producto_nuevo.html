@@ -98,21 +98,26 @@
       <form style="background-color: rgb(238, 191, 173);margin:10px auto ; width: 400px; padding: 20px;">
         <h1>Ingresar el Nuevo Producto</h1>
         <div class="mb-3">
+          <label for="tipo">Tipo</label>
+          <input type="text" name="tipo" id="tipo" v-model="tipo">
+        </div>
           <label for="nombre">Nombre</label>
           <input type="text" name="nombre" id="nombre" v-model="nombre">
         </div>
-        <!-- <div class="mb-3">
-          <label for="nombre">Descripcion</label>
-          <input type="text" name="nombre" id="nombre" v-model="nombre">
-        </div> -->
+          </div>
+          <label for="descripcion">Descripcion</label>
+          <input type="text" name="descripcion" id="descripcion" v-model="descripcion">
+        </div>
+      </div>
+      </div>
+        <label for="disponibilidad">Disponibilidad</label>
+        <input type="text" name="disponibilidad" id="disponibilidad" v-model="disponibilidad">
+      </div>
         <div class="mb-3">
           <label for="precio">Precio</label>
           <input type="number" name="precio" id="precio" v-model="precio">
         </div>
-        <div class="mb-3">
-          <label for="stock">Stock</label>
-          <input type="number" name="stock" id="stock" v-model="stock">
-        </div>
+        
         <div class="mb-3">
           <label for="imagen">Imagen (URL o subir desde tu computadora)</label>
           <input type="text" name="imagen" id="imagen" v-model="imagen">
