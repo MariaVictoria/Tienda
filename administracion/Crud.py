@@ -14,6 +14,8 @@ ma = Marshmallow(app)
 
 
 #****************************************************************************************************
+
+#****************************************************************************************************
 class Producto(db.Model):
     idproducto = db.Column(db.Integer, primary_key=True, nullable=False)
     tipo = db.Column(db.String(100), nullable=False)
@@ -110,33 +112,38 @@ class Pedido(db.Model):
     idcliente = db.Column(db.Integer, nullable=False)
     idproducto = db.Column(db.Integer)
     cantidad = db.Column(db.Integer)
+    estado = db.Column(db.String(50))
+    fecha_entrega = db.Column(db.Date)
 
-
-    def __init__(self, idpedido, idcliente,idproducto, cantidad):
-        self.idpedido=idpedido
+    def __init__(self, idpedido, idcliente, idproducto, cantidad, estado, fecha_entrega):
+        self.idpedido = idpedido
         self.idcliente = idcliente
         self.idproducto = idproducto
         self.cantidad = cantidad
+        self.estado = estado
+        self.fecha_entrega = fecha_entrega
 
 # Esquemas
-
 class PedidoSchema(ma.Schema):
     class Meta:
         model = Pedido
-        fields = ('idpedido', 'idcliente', 'idproducto', 'cantidad')
+        fields = ('idpedido', 'idcliente', 'idproducto', 'cantidad', 'estado', 'fecha_entrega')
+
 pedido_schema = PedidoSchema()
 pedidos_schema = PedidoSchema(many=True)
 
-# Rutas para "pedido"
 @app.route("/pedido", methods=["POST"])
 def create_pedido():
     idpedido = request.json.get("idpedido")
     idcliente = request.json.get("idcliente")
     idproducto = request.json.get("idproducto")
     cantidad = request.json.get("cantidad")
+    estado = request.json.get("estado")
+    fecha_entrega = request.json.get("fecha_entrega")
 
-    new_pedido = Pedido(idpedido=idpedido, idcliente=idcliente, idproducto=idproducto, cantidad=cantidad)
-    db.session.add(new_pedido)  # Guardar la instancia en la base de datos
+    new_pedido = Pedido(idpedido=idpedido, idcliente=idcliente, idproducto=idproducto,
+                        cantidad=cantidad, estado=estado, fecha_entrega=fecha_entrega)
+    db.session.add(new_pedido)
     db.session.commit()
 
     return pedido_schema.jsonify(new_pedido)
@@ -146,6 +153,36 @@ def get_pedidos():
     all_pedidos = Pedido.query.all()
     result = pedidos_schema.dump(all_pedidos)
     return jsonify(result)
+
+@app.route("/pedido/<id>", methods=["GET"])
+def get_pedido(id):
+    pedido = Pedido.query.get(id)
+    if pedido:
+        return pedido_schema.jsonify(pedido)
+    else:
+        return jsonify({"message": "Pedido no encontrado"}), 404
+
+@app.route("/pedido/<id>", methods=["PUT"])
+def update_pedido(id):
+    pedido = Pedido.query.get(id)
+    if pedido:
+        idcliente = request.json.get("idcliente")
+        idproducto = request.json.get("idproducto")
+        cantidad = request.json.get("cantidad")
+        estado = request.json.get("estado")
+        fecha_entrega = request.json.get("fecha_entrega")
+
+        pedido.idcliente = idcliente
+        pedido.idproducto = idproducto
+        pedido.cantidad = cantidad
+        pedido.estado = estado
+        pedido.fecha_entrega = fecha_entrega
+
+        db.session.commit()
+
+        return pedido_schema.jsonify(pedido)
+    else:
+        return jsonify({"message": "Pedido no encontrado"}), 404
 
 @app.route("/pedido/<id>", methods=["DELETE"])
 def delete_pedido(id):
@@ -191,5 +228,6 @@ class Factura(db.Model):
         self.idcliente = idcliente
         self.fecha_emision = fecha_emision
 
+#************************
 if __name__ == '__main__':
     app.run(debug=True)
