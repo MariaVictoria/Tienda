@@ -89,11 +89,6 @@
     <h1>Pedidos a "Vicky GurumiS"</h1>
     <br>
 
-    main>
-    <br>
-    <h1>Pedidos a "Vicky GurumiS"</h1>
-    <br>
-
     <div id="app">
       <div class="card">
         <div class="container">
@@ -131,8 +126,12 @@
               <input type="text" name="cliente" id="cliente" v-model="pedido.idcliente">
             </div>
             <div class="mb-3">
+              <label for="nombreCliente">Nombre del Cliente</label>
+              <input type="text" name="nombreCliente" id="nombreCliente" :value="getNombreCliente(pedido.idcliente)" disabled>
+            </div>
+            <div class="mb-3">
               <label for="producto">Producto</label>
-              <input type="text" name="producto" id="producto" v-model="pedido.idprducto">
+              <input type="text" name="producto" id="producto" v-model="pedido.idproducto">
             </div>
             <div class="mb-3">
               <label for="cantidad">Cantidad</label>
