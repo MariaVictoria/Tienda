@@ -93,9 +93,9 @@
       <div class="card">
         <div class="container">
           <form
-            style="background-color: rgb(143, 197, 245);margin:10px auto ; width: 400px; padding: 20px;"
+            style="background-color: rgb(143, 197, 245); margin:10px auto ; width: 400px; padding: 20px;"
             @submit.prevent="grabarPedido">
-            <h1>Crear un nuevo Pedido</h1>
+            <h1>Ingresar los datos del Cliente</h1>
             <div class="mb-3">
               <label for="nombre">Nombre</label>
               <input type="text" name="nombre" id="nombre" v-model="cliente.nombre">
@@ -120,7 +120,31 @@
               <label for="email">Email</label>
               <input type="text" name="email" id="email" v-model="cliente.email">
             </div>
-
+            <h1>Ingresar los datos del Pedido</h1>
+            <div class="mb-3">
+              <label for="cliente">Cliente</label>
+              <input type="text" name="cliente" id="cliente" v-model="pedido.idcliente">
+            </div>
+            <div class="mb-3">
+              <label for="nombreCliente">Nombre del Cliente</label>
+              <input type="text" name="nombreCliente" id="nombreCliente" :value="getNombreCliente(pedido.idcliente)" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="producto">Producto</label>
+              <input type="text" name="producto" id="producto" v-model="pedido.idproducto">
+            </div>
+            <div class="mb-3">
+              <label for="cantidad">Cantidad</label>
+              <input type="text" name="cantidad" id="cantidad" v-model="pedido.cantidad">
+            </div>
+            <div class="mb-3">
+              <label for="estado">Estado</label>
+              <input type="text" name="estado" id="estado" v-model="pedido.estado">
+            </div>
+            <div class="mb-3">
+              <label for="fecha_entrega">Fecha de Entrega</label>
+              <input type="text" name="fecha_entrega" id="fecha_entrega" v-model="pedido.fecha_entrega">
+            </div>
             <button type="submit" class="btn btn-primary">Grabar Pedido</button>
           </form>
         </div>

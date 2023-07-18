@@ -86,6 +86,7 @@
                   
               </li>
           </ul>
+          
       </nav>
     </header>
 
@@ -101,24 +102,23 @@
           <label for="tipo">Tipo</label>
           <input type="text" name="tipo" id="tipo" v-model="tipo">
         </div>
+        <div class="mb-3">
           <label for="nombre">Nombre</label>
           <input type="text" name="nombre" id="nombre" v-model="nombre">
         </div>
-          </div>
+        <div class="mb-3">
           <label for="descripcion">Descripcion</label>
           <input type="text" name="descripcion" id="descripcion" v-model="descripcion">
         </div>
-      </div>
-      </div>
-        <label for="disponibilidad">Disponibilidad</label>
-        <input type="text" name="disponibilidad" id="disponibilidad" v-model="disponibilidad">
-      </div>
+        <div class="mb-3">
+          <label for="disponibilidad">Disponibilidad</label>
+          <input type="text" name="disponibilidad" id="disponibilidad" v-model="disponibilidad">
+        </div>
         <div class="mb-3">
           <label for="precio">Precio</label>
           <input type="number" name="precio" id="precio" v-model="precio">
         </div>
-        
-        <div class="mb-3">
+        <div class="mb-3">  
           <label for="imagen">Imagen (URL o subir desde tu computadora)</label>
           <input type="text" name="imagen" id="imagen" v-model="imagen">
           <input type="file" id="imagenUpload" @change="handleFileUpload">
