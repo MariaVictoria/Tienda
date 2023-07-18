@@ -6,11 +6,15 @@ createApp({
     data() {
         return {
             id: 0,
+            tipo:'',
             nombre: "",
-            imagen: "",
-            stock: 0,
+            descripcion:'',
+            disponibilidad:'',
             precio: 0,
-            url: 'https://mviktoriau.pythonanywhere.com/amigurumi/'+id
+            imagenUrl: "",
+            codigo:'',
+            
+            url: 'https://vickygurumis.pythonanywhere.com/producto/'+id
         }
     },
     methods: {
@@ -20,22 +24,29 @@ createApp({
                 .then(data => {
                     console.log(data)
                     this.id = data.id
+                    this.tipo = data.tipo
                     this.nombre = data.nombre;
-                    this.imagen = data.imagen
-                    this.stock = data.stock
+                    this.descripcion = data.descripcion
+                    this.disponibilidad= data.disponibilidad
                     this.precio = data.precio
+                    this.imagenUrl = data.imagenUrl
+                    this.codigo = data.codigo
+                    
                 })
                 .catch(err => {
                     console.error(err);
                     this.error = true
                 })
         },
-        modificar() {
+        update() {
             let producto = {
+                tipo: this.tipo,
                 nombre: this.nombre,
+                descripcion:this.descripcion,
+                disponibilidad: this.disponibilidad,
                 precio: this.precio,
-                stock: this.stock,
-                imagen: this.imagen
+                imagen: this.imagen,
+                codigo: this.codigo
             }
             var options = {
                 body: JSON.stringify(producto),
@@ -45,7 +56,7 @@ createApp({
             }
             fetch(this.url, options)
                 .then(function () {
-                    alert("Registro modificado")
+                    alert("Producto modificado")
                     window.location.href = "./productos.html";
                 })
                 .catch(err => {
