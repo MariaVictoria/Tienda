@@ -1,39 +1,36 @@
-const { createApp } = Vue
+const { createApp } = Vue;
+
 createApp({
     data() {
         return {
             pedido: [],
-            //url:'http://localhost:5000/productos',
-            // si el backend esta corriendo local usar localhost 5000(si no lo subieron a pythonanywhere)
-            url: 'https://vickygurumis.pythonanywhere.com/pedido', // si ya lo subieron a pythonanywhere
+            url: 'https://vickygurumis.pythonanywhere.com/pedido',
             error: false,
             cargando: true,
-            /*atributos para el guardar los valores del formulario */
             idpedido: 0,
             idcliente: "",
-            idproducto:'',
-            cantidad:'',
-                        
-        }
+            idproducto: "",
+            cantidad: "",
+        };
     },
     methods: {
         fetchData(url) {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    this.pedidos = data;
-                    this.cargando = false
+                    this.pedido = data;
+                    this.cargando = false;
                 })
                 .catch(err => {
                     console.error(err);
-                    this.error = true
-                })
+                    this.error = true;
+                });
         },
         eliminar(pedido) {
             const url = this.url + '/' + pedido;
             var options = {
                 method: 'DELETE',
-            }
+            };
             fetch(url, options)
                 .then(res => res.text()) // or res.json()
                 .then(res => {
@@ -42,31 +39,29 @@ createApp({
         },
         grabar() {
             let pedido = {
-                
-                idpedido:this.idpedido,
+                idpedido: this.idpedido,
                 idcliente: this.idcliente,
-                idproducto:this.idproducto,
-                cantidad:this.cantidad
-                           
-            }
+                idproducto: this.idproducto,
+                cantidad: this.cantidad,
+            };
             var options = {
                 body: JSON.stringify(pedido),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                redirect: 'follow'
-            }
+                redirect: 'follow',
+            };
             fetch(this.url, options)
                 .then(function () {
-                    alert("Pedido nuevo ingresado con éxito.")
+                    alert("Pedido nuevo ingresado con éxito.");
                     window.location.href = "IngresarPedido.html";
                 })
                 .catch(err => {
                     console.error(err);
-                    alert("Error al Grabarr")
-                })
-        }
+                    alert("Error al Grabar");
+                });
+        },
     },
     created() {
-        this.fetchData(this.url)
+        this.fetchData(this.url);
     },
-}).mount('#app')
+}).mount('#app');

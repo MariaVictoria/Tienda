@@ -17,19 +17,19 @@ const app = Vue.createApp({
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    this.id = data.id
-                    this.tipo = data.tipo
+                    this.id = data.id;
+                    this.tipo = data.tipo;
                     this.nombre = data.nombre;
-                    this.descripcion = data.descripcion
-                    this.disponibilidad = data.disponibilidad
-                    this.precio = data.precio
-                    this.imagen = data.imagen
-                    this.codigo = data.codigo
+                    this.descripcion = data.descripcion;
+                    this.disponibilidad = data.disponibilidad;
+                    this.precio = data.precio;
+                    this.imagen = data.imagen;
+                    this.codigo = data.codigo;
                 })
                 .catch(err => {
                     console.error(err);
-                    this.error = true
-                })
+                    this.error = true;
+                });
         },
         update() {
             let producto = {
@@ -40,27 +40,27 @@ const app = Vue.createApp({
                 precio: this.precio,
                 imagen: this.imagen,
                 codigo: this.codigo
-            }
+            };
             var options = {
                 body: JSON.stringify(producto),
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 redirect: 'follow'
-            }
+            };
             fetch(this.url, options)
                 .then(() => {
-                    alert("Producto modificado")
+                    alert("Producto modificado");
                     window.location.href = "./productos.html";
                 })
                 .catch(err => {
                     console.error(err);
-                    alert("Error al Modificar")
-                })
+                    alert("Error al Modificar");
+                });
         },
         handleFileUpload(event) {
             const file = event.target.files[0];
-            // Realiza el proceso de subida de la imagen
-            // y actualiza this.imagenUrl con la URL de la imagen subida
+            // Perform the image upload process
+            // and update this.imagen with the uploaded image URL
         }
     },
     created() {

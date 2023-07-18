@@ -106,7 +106,7 @@
     
             <div class="amigurumi-section">
                             <h1>Amigurumis  y   Patrones</h1>
-                            <div v-for="amigurumi in amigurumis" :key="amigurumi.iproducto">
+                            <div v-for="amigurumi in amigurumis" :key="amigurumi.idproducto">
 
                             </div>
                             <div class="table-responsive">
@@ -115,8 +115,9 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Nombre</th>
+                                            <th>Descripcion</th>
+                                            <th>Disponibilidad</th>
                                             <th>Precio</th>
-                                            <th>Stock</th>
                                             <th>Imagen</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -127,8 +128,10 @@
                                         <tr v-for="producto in productos" :key="producto.idproducto ">
                                             <td scope="row">{{producto.id}}</td>
                                             <td>{{ producto.nombre }}</td>
+                                            <td>{{ producto.descripcion }}</td>
+                                            <td>{{ producto.disponibilidad }}</td>
                                             <td>{{ producto.precio }}</td>
-                                            <td>{{ producto.stock }}</td>
+                                            
                                             <td>
                                                 <img width="60" :src="producto.imagen" :alt="producto.nombre">
                                             </td>
@@ -137,7 +140,7 @@
                                                     :href="'producto_update.html?id='+ idproducto"
                                                      >Editar</a>
                                                 <button type="button" class="btn btn-eliminar"
-                                                    v-on:click="eliminar(producto.id)">Eliminar</button>
+                                                    v-on:click="eliminar(idproducto)">Eliminar</button>
                                             </td>
                                         </tr>
 
