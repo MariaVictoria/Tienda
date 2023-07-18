@@ -49,14 +49,16 @@ const app = Vue.createApp({
                 disponibilidad: this.disponibilidad,
                 precio: this.precio,
                 imagen: this.imagen,
-                codigo: this.codigo,
-            }
+                codigo: this.codigo
+            };
+        
             var options = {
                 body: JSON.stringify(producto),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 redirect: 'follow'
             };
+        
             fetch(this.url, options)
                 .then(() => {
                     alert("Producto nuevo ingresado con éxito.");
@@ -68,6 +70,9 @@ const app = Vue.createApp({
                     this.precio = 0;
                     this.imagen = "";
                     this.codigo = 0;
+        
+                    // Redirigir a productos.html
+                    window.location.href = 'productos.html';
                 })
                 .catch(err => {
                     console.error(err);
