@@ -1,5 +1,5 @@
 function ir() {
-    
+
     var u = "elena";
     var c = "Raton1234";
     if (document.form.password.value == c && document.form.login.value == u) {

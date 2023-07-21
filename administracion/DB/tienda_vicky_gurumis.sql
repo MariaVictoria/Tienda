@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `tienda_vicky_gurumis` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `tienda_vicky_gurumis`;
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: tienda_vicky_gurumis
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,8 +57,7 @@ CREATE TABLE `factura` (
   `idpedido` int NOT NULL,
   `fecha_emision` date NOT NULL,
   PRIMARY KEY (`idfactura`),
-  KEY `fk_factura_pedido` (`idpedido`),
-  CONSTRAINT `fk_factura_pedido` FOREIGN KEY (`idpedido`) REFERENCES `pedido` (`idpedido`)
+  KEY `fk_factura_pedido` (`idpedido`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,7 +117,7 @@ CREATE TABLE `producto` (
   `codigo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idproducto`),
   UNIQUE KEY `codigo_UNIQUE` (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,6 +126,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (1,'Dino','Hermoso dino de compañía',NULL,'1',4000.00,NULL,'aa001'),(2,'Combo','\"Combo Dino + Libro\"','Este Dino está tejido a crochet en hilo de algodón 8/6 premium, peinado, sedificado.','1',9000.00,'https://github.com/MariaVictoria/Tienda/blob/main/img/animales/dinoconlibro.png','c0001'),(3,'Amigurumi didactico','Jirafa Didactica','Esta jirafa está tejida a crochet en hilo de algodón 8/6 premium, peinado, sedificado.','a pedido',20000.00,'https://github.com/MariaVictoria/Tienda/blob/main/img/animales/jirafa-cornio(2).png','aad0001');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -139,4 +139,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-18  3:10:35
+-- Dump completed on 2023-07-20 20:23:55

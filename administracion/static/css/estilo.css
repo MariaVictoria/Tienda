@@ -1,3 +1,9 @@
+/* Estilo personalizado para el mensaje de bienvenida */
+.swal-title {
+  font-family: 'Clicker Script', cursive;
+  color: yellow; /* Amarillo */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -174,7 +180,7 @@ h1 {
 }
 
 /* Estilo para el botón "iniciar sesion" */
- 
+
 .btn-iniciar-sesion {
   background-color: rgb(240, 204, 237);
   font-family: 'Clicker Script', bold, cursive;

@@ -13,11 +13,12 @@
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script src="https://unpkg.com/vue@3.2.30/dist/vue.global.prod.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Kanit:ital,wght@0,400;0,500;1,400&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="stylesheet" href="../css/main_index.css">
+    <link rel="stylesheet" href="../static/css/estilo.css">
+    <link rel="stylesheet" href="../../css/main_index.css">
 
     <title>V i c k y G u r u m i S - Update Productos</title>
 </head>
@@ -25,7 +26,7 @@
 
 <body>
     <header>
-        <img src="../iconos/Gurumis.png" class="img_logo" alt="logo" />
+        <img src="../../iconos/Gurumis.png" class="img_logo" alt="logo" />
         <label for="campo_nombre" id="nombreE">Vicky GurumiS</label>
         <input type="checkbox" id="check" />
         <label for="check">
@@ -34,10 +35,10 @@
         <nav class="menu">
             <ul>
                 <li>
-                    <a href="../index.html" style="background: #e5c89f; color: rgb(103, 100, 100)">Inicio</a>
+                    <a href="../../index.html" style="background: #e5c89f; color: rgb(103, 100, 100)">Inicio</a>
                 </li>
                 <li>
-                    <a href="../info.html">Acerca de</a>
+                    <a href="../../info.html">Acerca de</a>
                 </li>
                 <li>
                     <a href="#">Productos</a>
@@ -45,36 +46,36 @@
                         <li>
                             <a href="#">Amigurumis</a>
                             <ul>
-                                <li><a href="../personajes.html">Personajes</a></li>
-                                <li><a href="../animales.html">Animales</a></li>
-                                <li><a href="../munequeria.html">Muñequería</a></li>
+                                <li><a href="../../personajes.html">Personajes</a></li>
+                                <li><a href="../../animales.html">Animales</a></li>
+                                <li><a href="../../munequeria.html">Muñequería</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#">Patrones</a>
                             <ul>
-                                <li><a href="../patrones_free.html">Free</a></li>
-                                <li><a href="../patrones_de_pago.html">De Pago</a></li>
+                                <li><a href="../../patrones_free.html">Free</a></li>
+                                <li><a href="../../patrones_de_pago.html">De Pago</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="../tejedoras.html">Espacio para tejedoras</a>
+                    <a href="tejedoras.html">Espacio para tejedoras</a>
                     <ul>
                         <li><a href="#">Calculadora</a></li>
                         <li><a href="#">Tutoriales</a></li>
                         <li>
                             <a href="#">Patrones</a>
                             <ul>
-                                <li><a href="../patrones_free.html">Free</a></li>
-                                <li><a href="../patrones_de_pago.html">De Pago</a></li>
+                                <li><a href="../../patrones_free.html">Free</a></li>
+                                <li><a href="../../patrones_de_pago.html">De Pago</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li><a href="../contacto.html">Contacto</a></li>
-                <li><a href="../carrito.html">Tienda</a></li>
+                <li><a href="../../contacto.html">Contacto</a></li>
+                <li><a href="../../carrito.html">Tienda</a></li>
                 <li>
                     <a href="Administracion.html">De Administración</a>
 
@@ -87,7 +88,9 @@
         <br>
         <br>
         <h1> Actualizacion de productos "Vicky GurumiS" </h1>
-        <br>
+        <br> 
+    </div>
+</div>
         <br>
         <div class="container" id="app">
             <form style="background-color: rgb(156, 146, 243); margin:10px auto ; width: 400px; padding: 20px;">
@@ -120,7 +123,8 @@
                     <img width="100" :src="imagenUrl" alt="">
                 </div>
 
-                <button type="button" class="btn btn-success" v-on:click="update">Grabar</button>
+               <!-- Ejemplo de botón para cargar los datos del producto -->
+               <button class="btn btn-editar" @click="cargarDatosProducto(producto.idproducto)">Editar</button>
             </form>
         </div>
 
@@ -129,36 +133,18 @@
         <footer>
             <p class="parrafo1">Derechos&Reservados 2023</p>
             <a href="https://www.instagram.com/vicky_gurumis/" target="_blank">
-                <img src="../img/Vicky_GurumiS.png" alt="Instagram" width="50" height="50" />
+                <img src="../../img/Vicky_GurumiS.png" alt="Instagram" width="50" height="50" />
             </a>
         </footer>
 
-
-        
-
-    <script>
-
-        fetch('https://MViktoriaU.mysql.pythonanywhere-services.com/api/productos')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // Imprimir la respuesta en la consola
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    </script> 
-
-
-        <script>
-        src = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity = "sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin = "anonymous"
-    </script>
-
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="./js/producto_update.js"></script>
-
-        <script src="./js/curdproductos.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script><!--Link de VUE-->
+    
+    <script src="../static/js/update.js"></script>
+        <script src="../static/js/productos.js"></script>
+    
 
     </main>
 </body>
