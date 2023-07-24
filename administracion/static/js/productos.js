@@ -1,8 +1,8 @@
 const app = Vue.createApp({
     data() {
         return {
-            productos: [], // Tu lista de productos
-            url: 'http://localhost:5000/producto', // URL de la API del servidor
+            productos: [],
+            url: 'http://localhost:5000/producto',
             tipo: "",
             nombre: "",
             descripcion: "",
